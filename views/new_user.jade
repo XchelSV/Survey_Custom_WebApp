@@ -1,0 +1,96 @@
+extends layout
+
+block content
+    style.
+        .cropit-preview {
+            background-color: #f8f8f8;
+            background-size: cover;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin-top: 7px;
+            width: 400px;
+            height: 91px;
+          }
+
+          /* Translucent background image */
+        .cropit-preview-background {
+          opacity: .2;
+        }
+
+        /*
+         * If the slider or anything else is covered by the background image,
+         * use relative or absolute position on it
+         */
+        input.cropit-image-zoom-input {
+          position: relative;
+        }
+
+        /* Limit the background image by adding overflow: hidden */
+        #image-cropper {
+          overflow: hidden;
+        }
+
+    .container.animated.fadeIn(ng-controller='addUserController')
+        .row(style='margin-top:3%')
+            .col.s6.offset-s3
+                h2.thin
+                    | Registro de Usuario
+        .row
+          form().col.s12
+            .row
+                .col.s6
+                    .row
+                      .input-field
+                        input#first_name.validate(type='text',required, ng-model='nombre',ng-class='name_null')
+                        label(for='first_name') Nombre/Empresa
+                    .row
+                      .input-field
+                        input#place.validate(type='text',required, ng-model='direccion',ng-class='dir_null')
+                        label(for='place') Dirección
+                    .row
+                      .input-field
+                        input#password.validate(type='password',required, ng-model='contrasena',ng-class='pass_null')
+                        label(for='password') Contraseña
+                    .row
+                      .input-field
+                        input#email.validate(type='email',required, ng-model='correo',ng-class='mail_null')
+                        label(for='email',data-error="wrong", data-success="right") Correo Electónico
+
+                #image-cropper.col.s5.offset-s1(style='margin-top:4%')
+                      // This is where the preview image is displayed
+                      .row
+                        .cropit-preview
+                      
+                      .row
+                          // This range input controls zoom
+                          // You can add additional elements here, e.g. the image icons
+                          input.col.s6.cropit-image-zoom-input(type='range')
+                          .col.s6
+                            button.waves-effect.waves-light.btn(ng-click='cut_img()',ng-class='imgdata_null')
+                              i.material-icons.right content_cut
+                              | Cortar
+                      .row
+                          // This is where user selects new image
+                          .input-field
+                            .file-field.input-field
+                              .btn
+                                span Logo
+                                input.cropit-image-input(type='file',ng-click='reenable()')
+                              .file-path-wrapper
+                                input.file-path.validate(type='text', required,ng-model='img',ng-class='img_null')
+
+
+            .row
+                .col.s3.offset-s5
+                    button.waves-effect.waves-light.btn-large(type='submit',ng-click='send()')
+                      i.material-icons.right done
+                      | Guardar
+
+block footer
+
+                
+
+
+                
+
+

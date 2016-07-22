@@ -1,0 +1,47 @@
+extends layout
+
+block content
+    style.
+        body{
+            background-color: #00bcd4;
+        }
+        .div_form{
+            background-color: white;   
+        }
+
+
+    .container.animated.fadeIn(ng-controller='loginController')
+        .row(style='margin-top:6%')
+            .col.s4.offset-s4.z-depth-3.div_form
+                .row(style='margin-top:8%')
+                    .col.s10.offset-s1
+                        img.responsive-img(src='/images/ds.png')
+                .row
+                    .input-field.col.s10.offset-s1(ng-class='name_null')
+                      i.material-icons.prefix account_circle
+                      input#icon_prefix.validate(type='text', ng-model='nombre')
+                      label(for='icon_prefix') Nombre/Empresa
+                .row
+                    .input-field.col.s10.offset-s1(ng-class='pass_null')
+                      i.material-icons.prefix lock_outline
+                      input#icon_prefix.validate(type='password', ng-model='contrasena')
+                      label(for='icon_prefix') Contraseña
+                .row(style='margin-top:-6%')
+                    p.col.s10.offset-s1
+                      input#test5(type='checkbox', ng-model='sesion')
+                      label(for='test5') No cerrar sesión
+                .row
+                    .col.s10.offset-s1
+                        button.btn.waves-effect.waves-light.col.s12(type='submit', name='action', ng-click='login()')
+                          | Acceder
+                .row(style='font-size:80%')
+                    .col.s3.offset-s1
+                        p
+                            a(href='#')
+                                | ¡Registrate!
+                    .col.s6.offset-s1
+                        p
+                            a(href='#')
+                                ¿Olvidaste tu contraseña?
+
+block footer
