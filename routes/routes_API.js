@@ -138,6 +138,27 @@ newType2.save(function(err){
 
 		})
 
+		app.route('/logout')
+
+			.get(function (request,response){
+
+				RedisClient.del(request.session._id, function (err,reply){
+				
+					request.session.destroy(function (err){
+
+						response.clearCookie('correo');
+						response.clearCookie('direccion');
+						response.clearCookie('nombre');
+						
+						response.redirect('/');
+
+					})
+
+
+				})
+
+			})
+
 		app.route('/options/type')
 
 			.get(function (request,response){
