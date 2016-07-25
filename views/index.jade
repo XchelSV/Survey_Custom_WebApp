@@ -3,27 +3,13 @@ extends layout
 block content
   style.
     body {
-        position: absolute;
-        top: 0; bottom: 0; left: 0; right: 0;
-        height: 100%;
+        background-color: #eceff1;
     }
-    body:before {
-        content: "";
-        position: absolute;
-        height: 20%; width: 20%;
-        background: url(/images/background.jpg);
-        background-size: cover;
-        z-index: -1; /* Keep the background behind the content */
-        
-        /* don't forget to use the prefixes you need */
-        -webkit-transform: scale(5);
-        -webkit-transform-origin: top left;
-        -webkit-filter: blur(0.8px);
-    }
+    
   .container.animated.fadeIn
       .row
+        each val in surveys
           .col.s12.m6
-            each val in surveys
               .card.medium
                 .card-image
                   img(src='/images/coffee.jpg')
