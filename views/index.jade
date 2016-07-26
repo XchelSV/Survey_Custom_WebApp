@@ -18,23 +18,9 @@ block content
                   p= val.descripcion
                     
                 .card-action
-                  a(href='#') This is a link
+                  a(href='/survey/'+val._id) This is a link
                   .fixed-action-btn.horizontal.click-to-toggle(style='bottom: 45px; right: 24px;')
-                    a.btn-floating.btn-large.red
-                      i.material-icons menu
-                    ul
-                      li
-                        a.btn-floating.red
-                          i.material-icons insert_chart
-                      li
-                        a.btn-floating.yellow.darken-1
-                          i.material-icons format_quote
-                      li
-                        a.btn-floating.green
-                          i.material-icons publish
-                      li
-                        a.btn-floating.blue
-                          i.material-icons attach_file
+                    
   
   .fixed-action-btn(style='bottom: 45px; right: 24px;')
       a.btn-floating.btn-large.red.waves-effect.waves-light(href='/survey/new')
