@@ -34,7 +34,7 @@ block content
                       select(ng-model='type_id',ng-class='type_null')
                         option(value='', disabled, selected) Tipo de Pregunta
                         option(ng-repeat='type in types',value='{{type._id}}',on-finish-render="ngRepeatFinished") {{type.nombre}}
-                        option(value='3') Abierta (Sin Estadísticos)
+                        option(value='Abierta') Abierta (Sin Estadísticos)
                       label Tipo
             .row
                 .col.s2.offset-s10
