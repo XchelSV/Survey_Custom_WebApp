@@ -1,0 +1,38 @@
+extends layout
+
+block content
+
+    nav(style='height:95px').animated.fadeInDown.teal.lighten-2
+        .nav-wrapper
+            a.brand-logo.center(href='#') 
+                img.responsive-img(src='/images/userLogo/#{survey.user_id}.png', alt='')
+            
+    .container.animated.fadeIn(ng-controller='surveyController')
+
+        .row(style='margin-top:2%', align='center')
+            .col.s10.offset-s1
+                h2.thin #{survey.nombre}
+
+        each question in survey.preguntas
+            .row
+                .col.s12
+                    h4.thin=question.number+'. '+question.question
+
+            .row
+                if question.type != 'Abierta'
+                    each option in question.options_type
+                        .col.s2
+                            p
+                              input.with-gap(name='group'+question.number, type='radio', id=question.number+option, ng-model='question'+question.number)
+                              label(for=question.number+option)=option
+                else
+
+                    .input-field.col.s12
+                      textarea(id='abierta'+question.number, ng-model='question'+question.number).materialize-textarea
+                      label(for='abierta'+question.number) Responde abiertamente
+
+        .row
+            .col.s4.offset-s8
+                button.btn.waves-effect.waves-light(type='submit', name='action')
+                  | Envíar Respuestas
+                  i.material-icons.right send
