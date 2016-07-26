@@ -59,4 +59,25 @@ module.exports = (function (app){
 
 	})
 
+	app.route('/survey/:_id')
+
+	.get(function (request,response){
+
+		var Survey = require('../models/survey_model');
+		var  User = require('../models/user_model');
+		var survey_id = request.params._id;
+
+
+		Survey.findById(survey_id, function (err,sur){
+
+			User.findById(sur.user_id, function (err,usr){
+
+				response.render('survey',{nombre:usr.nombre, direccion:usr.direccion, correo: usr.email ,survey: sur});
+				
+			})
+
+		})
+
+	})
+
 });
