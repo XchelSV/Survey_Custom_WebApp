@@ -200,6 +200,22 @@ newType2.save(function(err){
 
 		app.route('/survey/:survey_id/answers')
 
+			.get(function (request,response){
+
+				var survey_id = request.params.survey_id;
+				Answer.find({survey_id:survey_id},function (err, answers){
+
+					if (err){throw err; response.sendStatus(500);}
+					else{
+
+						response.send(answers);
+
+					}
+
+				})
+
+			})
+
 			.post(function (request,response){
 
 				var survey_id = request.params.survey_id;
@@ -239,5 +255,6 @@ newType2.save(function(err){
 				})
 
 			})
+
 
 });
