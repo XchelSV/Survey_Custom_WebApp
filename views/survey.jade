@@ -23,16 +23,22 @@ block content
                     each option in question.options_type
                         .col.s2
                             p
-                              input.with-gap(name='group'+question.number, type='radio', id=question.number+option, ng-model='question'+question.number)
+                              input.with-gap(name='group'+question.number, type='radio', id=question.number+option,value=option ,ng-model='answer['+question.number+']')
                               label(for=question.number+option)=option
                 else
 
                     .input-field.col.s12
-                      textarea(id='abierta'+question.number, ng-model='question'+question.number).materialize-textarea
+                      textarea(id='abierta'+question.number, ng-model='answer['+question.number+']').materialize-textarea
                       label(for='abierta'+question.number) Responde abiertamente
 
         .row
             .col.s4.offset-s8
-                button.btn.waves-effect.waves-light(type='submit', name='action')
+                button.btn.waves-effect.waves-light(type='submit', name='action', ng-click='send_answers()')
                   | Envíar Respuestas
                   i.material-icons.right send
+        
+
+    script.
+        var question_number = "#{survey.preguntas.length}";
+        var survey_id = "#{survey._id}";
+            
