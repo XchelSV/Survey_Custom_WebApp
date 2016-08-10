@@ -11,7 +11,97 @@ var app = angular.module('DS_Survey',['ngRoute', 'ngCookies'])
         }
     }
 });
-	
+
+app.controller ('indexController',function  ($scope , $http, $cookies) {
+
+	$('.modal-trigger').leanModal({
+      dismissible: true, // Modal can be dismissed by clicking outside of the modal
+      opacity: .5, // Opacity of modal background
+      in_duration: 300, // Transition in duration
+      out_duration: 200, // Transition out duration
+      starting_top: '4%', // Starting top style attribute
+      ending_top: '10%', // Ending top style attribute
+      complete: function() { $scope.question_number_id = ''; $scope.question_name = ''; $scope.survey = {}; if(myChart !== null) {myChart.destroy(); myChart = null;};} // Callback for Modal close
+
+    });
+
+	$scope.show_graphs = function (survey_id){
+
+		for (var i = 0; i < surveys.length; i++) {
+			if (surveys[i]._id == survey_id){
+				$scope.survey = surveys[i];
+
+				$scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
+				    $('select').material_select();
+				});
+
+				break;
+			}
+		};
+
+	}
+
+
+	var myChart = null;
+	$scope.show_question_name = function (){
+
+		if (myChart !== null){
+			myChart.destroy();
+			myChart = null;
+		}
+
+		for (var i = 0; i < $scope.survey.preguntas.length; i++) {
+			if($scope.survey.preguntas[i]._id == $scope.question_number_id){
+				$scope.question_name = $scope.survey.preguntas[i].question;
+
+
+				var ctx = document.getElementById("myChart");
+
+                myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                labels: $scope.survey.preguntas[i].options_type,
+                datasets: [{
+                label: '# Respuestas',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+                }]
+                },
+                options: {
+			        scales: {
+			            yAxes: [{
+			                ticks: {
+			                    beginAtZero:true
+			                }
+			            }]
+			        }
+			    }
+                });
+				
+				break;
+			}// if
+		};// for
+
+	}
+
+})
+
 
 app.controller ('addUserController',function  ($scope , $http, $cookies) {
 
@@ -188,6 +278,11 @@ app.controller ('newSurveyController',function  ($scope , $http, $cookies) {
 		}
 		else{
 
+			if (question_i == 0){
+				Materialize.toast('Agrega al menos una Pregunta', 4000)
+			}
+
+			else{
 
 			var encuesta = {nombre: $scope.titulo,descripcion:$scope.descripcion ,preguntas: $scope.questions};
 			$http.post('/survey',encuesta).then(function success (response){
@@ -202,7 +297,53 @@ app.controller ('newSurveyController',function  ($scope , $http, $cookies) {
 					};
 
 			});
+			}
 		}		
+
+	}
+
+})
+
+
+app.controller ('surveyController',function  ($scope , $http, $cookies) {
+ 	
+ 	$scope.answer = [];
+ 	
+	$scope.send_answers = function (){
+
+		var respuestas = [];
+		var flag = true;
+		for (var i = 1; i <= question_number; i++) {
+			if($scope.answer[i] == null){
+				flag = false;
+				break;
+			}
+		};
+
+		console.log(flag);
+	 	console.log($scope.answer);
+
+
+	 	if(flag){
+
+	 		var encuesta = {answers: $scope.answer}
+
+			$http.post('/survey/'+survey_id+'/answers',encuesta).then(function success (response){
+
+				window.location = "/index";	
+						
+
+				}, function error (response) {
+						
+						if (response.status === 500) {
+								Materialize.toast('Error al Envíar Respuestas', 4000)
+						};
+
+			});
+		}
+		else{
+			Materialize.toast('Completa todos los Campos', 4000)	
+		}
 
 	}
 
