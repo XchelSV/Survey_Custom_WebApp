@@ -21,10 +21,11 @@ app.controller ('indexController',function  ($scope , $http, $cookies) {
       out_duration: 200, // Transition out duration
       starting_top: '4%', // Starting top style attribute
       ending_top: '10%', // Ending top style attribute
-      complete: function() { $scope.question_number_id = ''; $scope.question_name = ''; $scope.survey = {}; if(myChart !== null) {myChart.destroy(); myChart = null;};} // Callback for Modal close
+      complete: function() { $scope.question_number_id = ''; $scope.question_name = ''; $scope.survey = {}; if(myChart !== null) {myChart.destroy(); myChart = null;}; answers_counter = [];} // Callback for Modal close
 
     });
 
+	var answers_counter = [];
 	$scope.show_graphs = function (survey_id){
 
 		for (var i = 0; i < surveys.length; i++) {
@@ -35,6 +36,59 @@ app.controller ('indexController',function  ($scope , $http, $cookies) {
 				    $('select').material_select();
 				});
 
+				$http.get('/survey/'+survey_id+'/answers').then(function success (response){
+
+					$scope.survey_answers = response.data;
+					//console.log(JSON.stringify($scope.survey_answers));
+
+					//Construct Counter Structure JSON
+					for (var i = 0; i < $scope.survey.preguntas.length; i++) {
+						
+						answers_counter.push({
+								question_id: $scope.survey.preguntas[i]._id,
+								answers: []
+						})
+
+						for (var j = 0; j < $scope.survey.preguntas[i].options_type.length; j++) {
+							answers_counter[i].answers.push({
+								name_type: $scope.survey.preguntas[i].options_type[j],
+								counter: 0
+							})
+							//console.log($scope.survey.preguntas[i].options_type[j]);
+						};
+
+					};
+
+					//Filling Counter JSON
+					//if($scope.survey_answers != undefined){
+						for (var i = 0; i < $scope.survey_answers.length; i++) {
+
+							for (var k = 1; k < $scope.survey_answers[i].answers.length; k++) {
+
+								for (var j = 0; j < answers_counter[k-1].answers.length; j++) {
+
+									if (answers_counter[k-1].answers[j].name_type == $scope.survey_answers[i].answers[k]) {
+										answers_counter[k-1].answers[j].counter++;
+										break;
+									};
+
+								}
+							}
+
+						}
+					//}
+
+					
+					//console.log(answers_counter);
+
+
+				}, function error (response) {
+
+					if (response.status === 500) {
+						Materialize.toast('Error al Solicitar Respuestas', 4000)
+					};
+
+				});
 				break;
 			}
 		};
@@ -54,6 +108,17 @@ app.controller ('indexController',function  ($scope , $http, $cookies) {
 			if($scope.survey.preguntas[i]._id == $scope.question_number_id){
 				$scope.question_name = $scope.survey.preguntas[i].question;
 
+				var answers = [];
+				//Fill anwers (Data to Chart) by question selected
+				for (var j = 0; j < answers_counter.length; j++) {
+					if (answers_counter[j].question_id == $scope.question_number_id) {
+						for (var k = 0; k < answers_counter[j].answers.length; k++) {
+							answers.push(answers_counter[j].answers[k].counter);
+						};
+					};
+				};
+
+				//console.log(answers);
 
 				var ctx = document.getElementById("myChart");
 
@@ -63,22 +128,22 @@ app.controller ('indexController',function  ($scope , $http, $cookies) {
                 labels: $scope.survey.preguntas[i].options_type,
                 datasets: [{
                 label: '# Respuestas',
-                data: [12, 19, 3, 5, 2, 3],
+                data: answers,
                 backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
+	                'rgba(255, 99, 132, 0.2)',
+	                'rgba(54, 162, 235, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(75, 192, 192, 0.2)',
+	                'rgba(153, 102, 255, 0.2)',
+	                'rgba(255, 159, 64, 0.2)'
                 ],
                 borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
+	                'rgba(255,99,132,1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
                 ],
                 borderWidth: 1
                 }]
