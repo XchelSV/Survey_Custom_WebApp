@@ -6,9 +6,9 @@ block content
         background-color: #eceff1;
     }
     
-  .container.animated.fadeIn
-      .row
-        each val in surveys
+  .container(ng-controller='indexController')
+      .row.animated.fadeIn
+        each val,index in surveys
           .col.s12.m6
               .card.medium
                 .card-image
@@ -18,26 +18,64 @@ block content
                   p= val.descripcion
                     
                 .card-action
-                  a(href='/survey/'+val._id) This is a link
-                  .fixed-action-btn.horizontal.click-to-toggle(style='bottom: 45px; right: 24px;')
+                  a.dropdown-button.btn(href='#', data-activates='dropdown'+index) Opciones
+
+                  // Dropdown Structure
+                  ul(id='dropdown'+index).dropdown-content
+                    li
+                      a(href='/survey/'+val._id) Ver 
+                    li
+                      a(href='#!') Editar
+                    li.divider
+                    li
+                      a.modal-trigger(href='#modal1', ng-click='show_graphs("#{val._id}")') Estadísticos
+
+      
+      // Modal Structure
+      .modal(id='modal1')
+          .modal-content
+            .row
+              .col.s6
+                h4.thin {{survey.nombre}}
+              .col.s4.offset-s1
+                select(ng-model='question_number_id',ng-change='show_question_name()')
+                    option(value='', disabled, selected) Selecciona una Pregunta
+                    option(ng-repeat='question in survey.preguntas',value='{{question._id}}' ,on-finish-render="ngRepeatFinished") Pregunta {{$index + 1}}
+
+            .row(style='margin-top:-5%')
+              .col.s12
+                p {{question_name}}
+            .row#canvas_div
+              canvas#myChart(width='400', height='145')
+
+
+
+          .modal-footer
+            a.modal-action.modal-close.waves-effect.waves-green.btn-flat(href='#!') Agree
+
+
+
+
                     
   
   .fixed-action-btn(style='bottom: 45px; right: 24px;')
       a.btn-floating.btn-large.red.waves-effect.waves-light(href='/survey/new')
         i.large.material-icons add
-      //ul
-        li
-          a.btn-floating.red
-            i.material-icons insert_chart
-        li
-          a.btn-floating.yellow.darken-1
-            i.material-icons format_quote
-        li
-          a.btn-floating.green
-            i.material-icons publish
-        li
-          a.btn-floating.blue
-            i.material-icons attach_file
 
+
+  script.
+    $('.dropdown-button').dropdown({
+        inDuration: 300,
+        outDuration: 225,
+        constrain_width: false, // Does not change width of dropdown to that of the activator
+        hover: true, // Activate on hover
+        gutter: 0, // Spacing from edge
+        belowOrigin: false, // Displays dropdown below the button
+        alignment: 'left' // Displays dropdown with edge aligned to the left of button
+      });
+
+
+  script.
+    var surveys = !{JSON.stringify(surveys)};
 
   block footer
