@@ -4,6 +4,7 @@ var path_module = require('path')
 var User = require('../models/user_model');
 var option_type = require('../models/type_model');
 var Survey = require('../models/survey_model');
+var Answer = require('../models/answer_model');
 
 /*var newType = new option_type({
 
@@ -193,6 +194,48 @@ newType2.save(function(err){
 
 					response.sendStatus(200);
 
+				})
+
+			})
+
+		app.route('/survey/:survey_id/answers')
+
+			.post(function (request,response){
+
+				var survey_id = request.params.survey_id;
+				var date = new Date();
+				console.log(request.body.answers);
+
+				Survey.findById(survey_id, function (err, doc){
+					if(err){
+						throw err;
+						response.sendStatus(500);
+					}
+
+					if (doc != undefined) {
+
+						var newAnswer = new Answer({
+
+							survey_id: survey_id,
+							date: date,
+							answers: request.body.answers
+
+						})
+
+						newAnswer.save(function (err,saved){
+
+							if(err){
+								throw err;
+								response.sendStatus(500);
+							}
+
+							response.sendStatus(200);
+						})
+
+					}
+					else{
+						response.sendStatus(500);
+					}
 				})
 
 			})
