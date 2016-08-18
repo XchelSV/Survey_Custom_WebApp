@@ -55,6 +55,9 @@ block content
                     .col.s10.offset-s1
                         h5.thin
                             {{ques.number}}. {{ques.question}}
+                    .col.s1
+                      a.btn-floating.btn-large.waves-effect.waves-light.red(ng-click='delete_question(ques.number)')
+                        i.material-icons delete
                 .row(align='center')
                     .col.s2(ng-repeat='option in ques.options_type')
                         p

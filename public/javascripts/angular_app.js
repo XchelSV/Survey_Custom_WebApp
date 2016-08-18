@@ -341,9 +341,19 @@ app.controller ('newSurveyController',function  ($scope , $http, $cookies) {
 				$scope.question = undefined;
 				$scope.type_id = undefined;
 				
-
+				
 			}	
 		}		
+
+	}
+
+	$scope.delete_question = function (question_number){
+
+		$scope.questions.splice(question_number-1,1);
+		for (var i = 0; i < $scope.questions.length; i++) {
+			$scope.questions[i].number = i+1;
+		};
+		question_i--;
 
 	}
 
