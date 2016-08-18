@@ -28,7 +28,7 @@ block content
                       a(href='#!') Editar
                     li.divider
                     li
-                      a.modal-trigger(href='#modal1', ng-click='show_graphs("#{val._id}")') Estadísticos
+                      a.modal-trigger(href='#modal1', ng-click='obtain_graphs_data("#{val._id}")') Estadísticos
 
       
       // Modal Structure
@@ -38,15 +38,41 @@ block content
               .col.s6
                 h4.thin {{survey.nombre}}
               .col.s4.offset-s1
-                select(ng-model='question_number_id',ng-change='show_question_name()')
+                select(ng-model='question_number_id',ng-change='show_graphs_by_question()')
                     option(value='', disabled, selected) Selecciona una Pregunta
                     option(ng-repeat='question in survey.preguntas',value='{{question._id}}' ,on-finish-render="ngRepeatFinished") Pregunta {{$index + 1}}
 
-            .row(style='margin-top:-5%')
+            .row(style='margin-top:-5%',ng-hide='div_survey_details')
               .col.s12
                 p {{question_name}}
             .row#canvas_div
-              canvas#myChart(width='400', height='145')
+              canvas#myChart(width='400', height='145',ng-hide='div_survey_details')
+            .row(ng-show='div_survey_details')
+              .row
+                .col.s12
+                  h5.thin Nombre de la encuesta: 
+                    
+                      strong {{survey.nombre}}
+
+              .row(style='margin-top:-5%')
+                .col.s12
+                  h5.thin Fecha de Creación: 
+                    
+                      strong {{date}}
+
+              .row(style='margin-top:-5%')
+                .col.s12
+                  h5.thin Total de Respuestas: 
+                    
+                      strong {{survey_answers.length}}
+
+              .row(style='margin-top:-5%')
+                .col.s12
+                  h5.thin Última Respuesta: 
+                    
+                      strong {{last_answer_date}}
+
+
 
 
 
@@ -77,5 +103,6 @@ block content
 
   script.
     var surveys = !{JSON.stringify(surveys)};
+    moment.locale("es");
 
   block footer
