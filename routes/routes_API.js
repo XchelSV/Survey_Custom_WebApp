@@ -176,10 +176,12 @@ newType2.save(function(err){
 
 			.post(function (request,response){
 
+				var date = new Date();
 				var newSurvey = new Survey({
 
 					user_id: request.session.user_id,
 					nombre: request.body.nombre,
+					date: date,
 					descripcion: request.body.descripcion,
 					preguntas: request.body.preguntas
 
