@@ -10,6 +10,7 @@ var questionSchema = mongoose.Schema({
 var surveySchema = mongoose.Schema({
     user_id: String,
     nombre: String,
+    date: Date,
     descripcion: String,
     preguntas:[questionSchema]
 });
