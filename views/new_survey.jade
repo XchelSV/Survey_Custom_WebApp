@@ -3,7 +3,7 @@ extends layout
 block content
     
 
-    nav(style='height:95px').animated.fadeInDown.teal.lighten-2
+    nav(style='height:95px',ng-controller='newSurveyController', ng-class='color').animated.fadeInDown
         .nav-wrapper
             a.brand-logo.center(href='#') 
                 img.responsive-img(src='/images/userLogo/#{id}.png', alt='')
@@ -20,25 +20,25 @@ block content
             .row
                 .input-field.col.s6
                   input#name_survey.validate(type='text',ng-model='titulo')
-                  label(for='name_survey') Título de la Encuesta
+                  label(for='name_survey').blue-grey-text Título de la Encuesta
 
                 .input-field.col.s6
                     textarea#textarea1.materialize-textarea(ng-model='descripcion')
-                    label(for='textarea1') Descripción
+                    label(for='textarea1').blue-grey-text Descripción
             .row
                 .input-field.col.s6
                   input#name.validate(type='text',ng-model='question',ng-class='question_null')
-                  label(for='name') Enunciado de la Pregunta
+                  label(for='name').blue-grey-text Enunciado de la Pregunta
 
                 .input-field.col.s6
-                      select(ng-model='type_id',ng-class='type_null')
+                      select(ng-model='type_id',ng-class='[type_null]')
                         option(value='', disabled, selected) Tipo de Pregunta
                         option(ng-repeat='type in types',value='{{type._id}}',on-finish-render="ngRepeatFinished") {{type.nombre}}
                         option(value='Abierta') Abierta (Sin Estadísticos)
                       label Tipo
             .row
                 .col.s2.offset-s10
-                    a.waves-effect.waves-light.btn.col.s12(ng-click='add_question()')
+                    a.waves-effect.waves-light.btn.col.s12(ng-click='add_question()',ng-class='color')
                       i.material-icons.right done
                       | Agregar
 
@@ -66,7 +66,7 @@ block content
 
             .row
                 .col.s3.offset-s9
-                    a.waves-effect.waves-light.btn.col.s12(ng-click='save_survey()')
+                    a.waves-effect.waves-light.btn.col.s12(ng-click='save_survey()',ng-class='color')
                       i.material-icons.right done_all
                       | Guardar Encuesta
 
