@@ -14,6 +14,8 @@ var app = angular.module('DS_Survey',['ngRoute', 'ngCookies'])
 
 app.controller ('indexController',function  ($scope , $http, $cookies) {
 
+	$scope.color = $cookies.color;
+
 	$('.modal-trigger').leanModal({
       dismissible: true, // Modal can be dismissed by clicking outside of the modal
       opacity: .5, // Opacity of modal background
@@ -181,6 +183,7 @@ app.controller ('indexController',function  ($scope , $http, $cookies) {
 
 app.controller ('addUserController',function  ($scope , $http, $cookies) {
 
+	$scope.color = "teal lighten-2";
 
 	$('#image-cropper').cropit({ imageBackground: true });
 	// Exporting cropped image
@@ -189,6 +192,16 @@ app.controller ('addUserController',function  ($scope , $http, $cookies) {
         $scope.imageData = $('#image-cropper').cropit('export');
         $('#image-cropper').cropit('disable');
         Materialize.toast('Imagen Cortada', 4000)
+
+    }
+
+    $scope.color_class = function(color_name){
+
+
+    	$scope.color = color_name;
+    	$('#modal1').closeModal();
+    	console.log($scope.color);
+    	
 
     }
 
@@ -224,7 +237,7 @@ app.controller ('addUserController',function  ($scope , $http, $cookies) {
 				    			Materialize.toast('Corta la Imagen', 4000);
 					    	}else{
 					    		
-					    		var data = {nombre: $scope.nombre, contrasena: $scope.contrasena, direccion: $scope.direccion, correo: $scope.correo, img64: $scope.imageData};
+					    		var data = {nombre: $scope.nombre, contrasena: $scope.contrasena, direccion: $scope.direccion, correo: $scope.correo, img64: $scope.imageData, color:$scope.color};
 								$http.post('/user/new', data ).then(function success (response){
 
 									window.location = "/index";
@@ -248,6 +261,16 @@ app.controller ('addUserController',function  ($scope , $http, $cookies) {
     	}
 
     }
+
+    $('.modal-trigger').leanModal({
+      dismissible: true, // Modal can be dismissed by clicking outside of the modal
+      opacity: .5, // Opacity of modal background
+      in_duration: 300, // Transition in duration
+      out_duration: 200, // Transition out duration
+      
+      
+    }
+  );
 
 })
 
@@ -298,6 +321,7 @@ app.controller ('loginController',function  ($scope , $http, $cookies) {
 
 app.controller ('newSurveyController',function  ($scope , $http, $cookies) {
 
+	$scope.color = $cookies.color;
 	$(document).ready(function() {
 	    $('select').material_select();
 	});
@@ -394,6 +418,7 @@ app.controller ('newSurveyController',function  ($scope , $http, $cookies) {
 app.controller ('surveyController',function  ($scope , $http, $cookies) {
  	
  	$scope.answer = [];
+ 	$scope.color = $cookies.color;
  	
 	$scope.send_answers = function (){
 

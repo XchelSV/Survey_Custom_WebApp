@@ -30,12 +30,13 @@ block content
           overflow: hidden;
         }
 
-    .container.animated.fadeIn(ng-controller='addUserController')
+
+    .container(ng-controller='addUserController')
         .row(style='margin-top:3%')
             .col.s6.offset-s3
                 h2.thin
                     | Registro de Usuario
-        .row
+        .row.animated.fadeIn
           form().col.s12
             .row
                 .col.s6
@@ -64,27 +65,58 @@ block content
                       .row
                           // This range input controls zoom
                           // You can add additional elements here, e.g. the image icons
-                          input.col.s6.cropit-image-zoom-input(type='range')
+                          input.col.s6.cropit-image-zoom-input(type='range', ng-class='color')
                           .col.s6
-                            button.waves-effect.waves-light.btn(ng-click='cut_img()',ng-class='imgdata_null')
+                            button.waves-effect.waves-light.btn(ng-click='cut_img()',ng-class='[imgdata_null,color]')
                               i.material-icons.right content_cut
                               | Cortar
                       .row
                           // This is where user selects new image
                           .input-field
                             .file-field.input-field
-                              .btn
+                              .btn(ng-class='color')
                                 span Logo
                                 input.cropit-image-input(type='file',ng-click='reenable()')
                               .file-path-wrapper
                                 input.file-path.validate(type='text', required,ng-model='img',ng-class='img_null')
 
+                      .row
+                        .col.s12
+                          a.waves-effect.waves-light.btn.modal-trigger(href='#modal1', ng-class='color') Paleta de Colores
+                            i(class="material-icons right") color_lens
+
 
             .row
                 .col.s3.offset-s5
-                    button.waves-effect.waves-light.btn-large(type='submit',ng-click='send()')
+                    button.waves-effect.waves-light.btn-large(type='submit',ng-click='send()', ng-class='color')
                       i.material-icons.right done
                       | Guardar
+
+        // Modal Structure
+        #modal1.modal.bottom-sheet.blue-grey.lighten-4
+          .modal-content
+            h4.thin Paleta de Colores
+            .row
+              button.btn-large.waves-effect.col.s3.light-blue.lighten-1(style='height:40px', ng-click='color_class("light-blue lighten-1")')
+              button.btn-large.waves-effect.col.s3.cyan.lighten-1(style='height:40px', ng-click='color_class("cyan lighten-1")')
+              button.btn-large.waves-effect.col.s3.teal.lighten-1(style='height:40px', ng-click='color_class("teal lighten-1")')
+              button.btn-large.waves-effect.col.s3.green.lighten-1(style='height:40px', ng-click='color_class("green lighten-1")')
+            .row
+              button.btn-large.waves-effect.col.s3.light-green.lighten-1(style='height:40px', ng-click='color_class("light-green lighten-1")')
+              button.btn-large.waves-effect.col.s3.lime.lighten-1(style='height:40px', ng-click='color_class("lime lighten-1")')
+              button.btn-large.waves-effect.col.s3.yellow.lighten-1(style='height:40px', ng-click='color_class("yellow lighten-1")')
+              button.btn-large.waves-effect.col.s3.amber.lighten-1(style='height:40px', ng-click='color_class("amber lighten-1")')
+            .row
+              button.btn-large.waves-effect.col.s3.orange.lighten-1(style='height:40px', ng-click='color_class("orange lighten-1")')
+              button.btn-large.waves-effect.col.s3.deep-orange.lighten-1(style='height:40px', ng-click='color_class("deep-orange lighten-1")')
+              button.btn-large.waves-effect.col.s3.brown.lighten-1(style='height:40px', ng-click='color_class("brown lighten-1")')
+              button.btn-large.waves-effect.col.s3.grey.lighten-1(style='height:40px', ng-click='color_class("grey lighten-1")')
+            .row
+              button.btn-large.waves-effect.col.s3.blue-grey.lighten-1(style='height:40px', ng-click='color_class("blue-grey lighten-1")')
+              button.btn-large.waves-effect.col.s3.pink.accent-1(style='height:40px', ng-click='color_class("pink accent-1")')
+              button.btn-large.waves-effect.col.s3.red.accent-1(style='height:40px', ng-click='color_class("red accent-1")')
+              button.btn-large.waves-effect.col.s3.deep-purple.lighten-2(style='height:40px', ng-click='color_class("deep-purple lighten-2")')
+
 
 block footer
 
