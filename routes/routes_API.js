@@ -69,6 +69,7 @@ newType2.save(function(err){
 				direccion : request.body.direccion,
 				password : request.body.contrasena,
 				email : request.body.correo,
+				color: request.body.color,
 				image_path : type
 
 			})
@@ -119,6 +120,7 @@ newType2.save(function(err){
 								response.cookie('nombre',user.nombre);
 								response.cookie('direccion',user.direccion);
 								response.cookie('correo',user.email);
+								response.cookie('color',user.color);
 
 								response.sendStatus(200);
 							}

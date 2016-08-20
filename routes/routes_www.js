@@ -26,7 +26,7 @@ module.exports = (function (app){
 	.get(function (request, response){
 
 		if (request.session._id){
-				response.render('new_survey',{id: request.session.user_id, nombre: request.cookies.nombre, direccion: request.cookies.direccion, correo: request.cookies.correo});
+				response.render('new_survey',{id: request.session.user_id, nombre: request.cookies.nombre, direccion: request.cookies.direccion, correo: request.cookies.correo, color: request.cookies.color });
 			}
 		else{
 				request.session.destroy(function (err){
@@ -72,7 +72,7 @@ module.exports = (function (app){
 
 			User.findById(sur.user_id, function (err,usr){
 
-				response.render('survey',{nombre:usr.nombre, direccion:usr.direccion, correo: usr.email ,survey: sur});
+				response.render('survey',{nombre:usr.nombre, direccion:usr.direccion, correo: usr.email,color:usr.color ,survey: sur});
 				
 			})
 
