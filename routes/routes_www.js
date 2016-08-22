@@ -1,4 +1,4 @@
-module.exports = (function (app){
+module.exports = (function (app, RedisClient, uuid){
 
 	app.route('/index')
 
@@ -8,7 +8,7 @@ module.exports = (function (app){
 				var Survey = require('../models/survey_model');
 				Survey.find({user_id:request.session.user_id}, function (err,doc){
 
-					response.render('index',{surveys:doc});
+					response.render('index',{surveys:doc, user_id:request.session.user_id});
 						
 				})
 				
@@ -67,14 +67,77 @@ module.exports = (function (app){
 		var  User = require('../models/user_model');
 		var survey_id = request.params._id;
 
+		
 
 		Survey.findById(survey_id, function (err,sur){
 
-			User.findById(sur.user_id, function (err,usr){
+			if(sur){
 
-				response.render('survey',{nombre:usr.nombre, direccion:usr.direccion, correo: usr.email,color:usr.color ,survey: sur});
-				
-			})
+					User.findById(sur.user_id, function (err,usr){
+
+						response.render('survey',{nombre:usr.nombre, direccion:usr.direccion, correo: usr.email,color:usr.color ,survey: sur});
+						
+					})
+
+			}
+			else{
+				response.sendStatus(404); //Dont Exist Survey, or Wrong id
+			}
+
+		})
+
+	})
+
+
+	app.route('/survey/qr/:_id')
+
+	.get(function (request,response){
+
+		var Survey = require('../models/survey_model');
+		var  User = require('../models/user_model');
+		var survey_id = request.params._id;
+
+		
+
+		Survey.findById(survey_id, function (err,sur){
+
+			if(sur){
+
+				if(request.cookie(survey_id)){
+
+					RedisClient.exists(request.cookie(survey_id), function (err, reply){
+
+						if(reply===1){
+							
+
+
+						} else {
+							response.send(401); //Survey answered 
+						}
+					});
+					
+				}
+				else{
+
+					var uuid = uuid.v4();
+					response.cookie(survey_id, uuid);
+
+					RedisClient.set(uuid , sur._id, function (err, value){
+						console.log('Token de Respuesta: '+value);
+					});
+					RedisClient.expire(uuid,3600);
+
+					User.findById(sur.user_id, function (err,usr){
+
+						response.render('survey',{nombre:usr.nombre, direccion:usr.direccion, correo: usr.email,color:usr.color ,survey: sur});
+						
+					})
+
+				}
+			}
+			else{
+				response.sendStatus(404); //Dont Exist Survey, or Wrong id
+			}
 
 		})
 
