@@ -17,18 +17,50 @@ app.controller ('indexController',function  ($scope , $http, $cookies) {
 	$scope.color = $cookies.color;
 
 	$('.modal-trigger').leanModal({
+
       dismissible: true, // Modal can be dismissed by clicking outside of the modal
       opacity: .5, // Opacity of modal background
       in_duration: 300, // Transition in duration
       out_duration: 200, // Transition out duration
       starting_top: '4%', // Starting top style attribute
       ending_top: '10%', // Ending top style attribute
-      complete: function() { $scope.question_number_id = ''; $scope.question_name = ''; $scope.survey = {}; if(myChart !== null) {myChart.destroy(); myChart = null;}; answers_counter = [];$scope.div_survey_details = true;} // Callback for Modal close
+      complete: function() { 
+	      	
+      	} // Callback for Modal close
 
     });
+	
+	
+	$scope.makeQR = function (survey_id){
+		
+		document.getElementById("qrcode").innerHTML = "";
+
+		var qrcode = new QRCode(document.getElementById("qrcode"),{
+		    text: "http://xchelsv.com:8080/survey/"+survey_id,
+		    width: 250,
+		    height: 250,
+		    colorDark : "#000000",
+		    colorLight : "#ffffff",
+		    correctLevel : QRCode.CorrectLevel.H
+		});
+
+		$('#qr_modal').openModal();
+
+	};
+
 
 	var answers_counter = [];
 	$scope.obtain_graphs_data = function (survey_id){
+
+		$scope.question_number_id = ''; 
+	    $scope.question_name = ''; 
+	    $scope.survey = {}; 
+	    if(myChart !== null) {
+		    myChart.destroy(); 
+		    myChart = null;
+	    }; 
+	    answers_counter = []; 
+	    $scope.div_survey_details = true;
 
 		for (var i = 0; i < surveys.length; i++) {
 			if (surveys[i]._id == survey_id){
