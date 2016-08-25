@@ -5,6 +5,9 @@ block content
     body {
         background-color: #eceff1;
     }
+    .picker--opened .picker__holder{
+      background: rgba(0,0,0,0.01) !important;
+    }
 
   nav(style='height:95px',ng-controller='indexController',ng-class='color').animated.fadeInDown
     .nav-wrapper
@@ -77,9 +80,12 @@ block content
             .row(style='margin-top:-5%',ng-hide='div_survey_details')
               .col.s12
                 p {{question_name}}
+
             .row#canvas_div
               canvas#myChart(width='400', height='145',ng-hide='div_survey_details')
             .row(ng-show='div_survey_details')
+                
+              h5.thin Resumen:
               .row
                 .col.s12
                   h5.thin Nombre de la encuesta: 
@@ -105,12 +111,30 @@ block content
                       strong {{last_answer_date}}
 
 
+            .row
+              h5.thin Filtros:
+              .row
+                .input-field.col.s4
+                    select(multiple='',ng-model='valid_filters', ng-change='show_filters()')
+                      option(value='', disabled='', selected='') Escoge un filtro
+                      option(value='1') Fecha
+                      option(value='2') Sexo
 
 
+              .row
+                .col.s4.offset-s1(ng-show='show_filter_date')
+                  label.active(for="date") Respuestas a partir de:
+                  input#date(type="date" ng-model='date_filter_value', ng-change='apply_filters()')
+                .col.s5.offset-s1(ng-show='show_filter_gender')
+                  .col.s6
+                    input#h(name='group1', type='radio')
+                    label(for='h') Hombre
+                  .col.s6
+                    input#m(name='group1', type='radio')
+                    label(for='m') Mujer
 
-          .modal-footer
-            a.modal-action.modal-close.waves-effect.waves-green.btn-flat(href='#!') Agree
 
+                
 
 
 
