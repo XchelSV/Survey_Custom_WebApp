@@ -238,7 +238,9 @@ newType2.save(function(err){
 
 							survey_id: survey_id,
 							date: date,
-							answers: request.body.answers
+							answers: request.body.answers,
+							email: request.body.email,
+							gender: request.body.gender
 
 						})
 

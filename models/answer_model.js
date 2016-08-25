@@ -3,6 +3,8 @@ var mongoose = require('mongoose');
 var answerSchema = mongoose.Schema({
     survey_id: String,
     date: Date,
+    gender: Boolean,
+    email: String,
     answers : [String]
 });
 
