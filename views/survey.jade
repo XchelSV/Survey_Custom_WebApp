@@ -12,12 +12,22 @@ block content
         .row(style='margin-top:2%', align='center')
             .col.s10.offset-s1
                 h2.thin #{survey.nombre}
+        .row
+                .col.s6.input-field
+                    input#email.validate(type='email',ng-model='email')
+                    label(for='email').blue-grey-text Correo Electrónico
+                .col.s6.input-field
+                    select#gender(ng-model='gender')
+                      option(value='', disabled='', selected='') Elige una Opción
+                      option(value='false') Hombre
+                      option(value='true') Mujer
+                    label.blue-grey-text Sexo
 
         each question in survey.preguntas
             .row
                 .col.s12
                     h4.thin=question.number+'. '+question.question
-
+            
             .row
                 if question.type != 'Abierta'
                     each option in question.options_type
