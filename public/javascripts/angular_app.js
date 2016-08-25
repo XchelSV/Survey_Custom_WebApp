@@ -30,11 +30,6 @@ app.controller ('indexController',function  ($scope , $http, $cookies) {
 
     });
 
-    $('.datepicker').pickadate({
-	    selectMonths: true, // Creates a dropdown to control month
-	    selectYears: 15, // Creates a dropdown of 15 years to control year
-	    opacity: .1
-	});
 
 	$scope.show_filters = function(){
 		$scope.show_filter_date = false;
@@ -85,6 +80,12 @@ app.controller ('indexController',function  ($scope , $http, $cookies) {
 	    }; 
 	    answers_counter = []; 
 	    $scope.div_survey_details = true;
+
+	    $scope.valid_filters = [];
+	    $scope.show_filter_date = false;
+	    $scope.show_filter_gender = false;
+	    $scope.date_filter_value = undefined;
+	    $scope.gender_filter_value = undefined;
 
 		for (var i = 0; i < surveys.length; i++) {
 			if (surveys[i]._id == survey_id){
@@ -250,18 +251,43 @@ app.controller ('indexController',function  ($scope , $http, $cookies) {
 	    //Temporal Array
 		filtered_answers = [];
 
+		var flag = true;
 		//Filling Temporal Array with Filter Params
 		if($scope.show_filter_date == true && $scope.date_filter_value != undefined){
 			for (var i = 0; i < $scope.survey_answers.length; i++) {
 				if( $scope.survey_answers[i].date >= $scope.date_filter_value){
 					filtered_answers.push($scope.survey_answers[i]);
+					flag = false;
 				}
 			};
 
 		}
 
 
-		if(($scope.show_filter_date == true && $scope.date_filter_value != undefined) /*|| ($scope.show_filter_gender == true)*/){
+		if($scope.show_filter_gender == true && $scope.gender_filter_value != undefined){
+			if(flag){
+
+				for (var i = 0; i < $scope.survey_answers.length; i++) {
+					if( $scope.survey_answers[i].gender == $scope.gender_filter_value){
+						filtered_answers.push($scope.survey_answers[i]);
+						flag = false;
+
+					}
+				};
+			}
+			else{
+				for (var i = 0; i < filtered_answers.length; i++) {
+					if( filtered_answers[i].gender != $scope.gender_filter_value){
+						filtered_answers.splice(i,1);
+						i--;
+					}
+				};	
+			}
+
+		}
+
+
+		if(($scope.show_filter_date == true && $scope.date_filter_value != undefined) || ($scope.show_filter_gender == true && $scope.gender_filter_value != undefined)){
 
 				//Construct Counter Structure JSON
 					for (var i = 0; i < $scope.survey.preguntas.length; i++) {

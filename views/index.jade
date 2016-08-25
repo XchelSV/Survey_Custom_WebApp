@@ -127,10 +127,10 @@ block content
                   input#date(type="date" ng-model='date_filter_value', ng-change='apply_filters()')
                 .col.s5.offset-s1(ng-show='show_filter_gender')
                   .col.s6
-                    input#h(name='group1', type='radio')
+                    input#h(name='group1', type='radio',value='0',ng-model='gender_filter_value',ng-change='apply_filters()')
                     label(for='h') Hombre
                   .col.s6
-                    input#m(name='group1', type='radio')
+                    input#m(name='group1', type='radio', value='1', ng-model='gender_filter_value',ng-change='apply_filters()')
                     label(for='m') Mujer
 
 
