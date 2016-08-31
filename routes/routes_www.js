@@ -59,6 +59,21 @@ module.exports = (function (app, RedisClient, uuid){
 
 	})
 
+	app.route('/answer/type/new')
+
+	.get(function (request, response){
+
+		if (request.session._id){
+				response.render('new_answer_type',{id: request.session.user_id, nombre: request.cookies.nombre, direccion: request.cookies.direccion, correo: request.cookies.correo, color: request.cookies.color });
+			}
+		else{
+				request.session.destroy(function (err){
+				response.redirect('/');
+			})
+		}
+
+	})
+
 	app.route('/survey/:_id')
 
 	.get(function (request,response){

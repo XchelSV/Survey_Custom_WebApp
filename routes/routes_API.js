@@ -174,6 +174,27 @@ newType2.save(function(err){
 				})
 			})
 
+			.post(function (request,response){
+
+				var newOption = new option_type({
+					nombre: request.body.name,
+					opciones: request.body.option_values
+				})
+
+				newOption.save(function (err,saved){
+
+					if(err){
+						throw err;
+						response.sendStatus(500);
+					}
+
+					response.sendStatus(200);
+
+				})
+
+
+			})
+
 		app.route('/survey')
 
 			.post(function (request,response){
@@ -261,6 +282,7 @@ newType2.save(function(err){
 				})
 
 			})
+
 
 
 });
