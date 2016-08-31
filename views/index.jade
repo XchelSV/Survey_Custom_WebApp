@@ -9,14 +9,14 @@ block content
       background: rgba(0,0,0,0.01) !important;
     }
 
+
+
   nav(style='height:95px',ng-controller='indexController',ng-class='color').animated.fadeInDown
     .nav-wrapper
       a.brand-logo.center(href='#')
         img.responsive-img(src='/images/userLogo/#{user_id}.png', alt='')
       ul.right.hide-on-med-and-down(style='margin-top:1%')
-        li
-          a(href='#')
-            i.material-icons search
+
         li
           a(href='/logout')
             i.material-icons play_for_work
@@ -63,7 +63,7 @@ block content
             
 
         .modal-footer
-          a.modal-action.modal-close.waves-effect.waves-green.btn-flat(href='#!') Agree
+          a.modal-action.modal-close.waves-effect.waves-green.btn-flat(href='#!') Exportar a PDF
 
       
       // Modal Structure
@@ -140,9 +140,16 @@ block content
 
                     
   
-  .fixed-action-btn(style='bottom: 45px; right: 24px;')
+  .fixed-action-btn.horizontal(style='bottom: 45px; right: 24px;')
       a.btn-floating.btn-large.red.waves-effect.waves-light(href='/survey/new')
         i.large.material-icons add
+      ul
+        li
+            a.btn-floating.red(href='/answer/type/new')
+              i.material-icons check_box
+        li
+            a.btn-floating.blue.darken-1(href='/survey/new')
+              i.material-icons note_add
 
 
   script.
@@ -162,3 +169,5 @@ block content
     moment.locale("es");
 
   block footer
+
+  script(src='/javascripts/angular_controllers/index_controller.js')

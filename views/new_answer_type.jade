@@ -1,0 +1,34 @@
+extends layout
+
+block content
+    
+
+    nav(style='height:95px',ng-controller='newAnswerTypeController', class='#{color}').animated.fadeInDown
+        .nav-wrapper
+            a.brand-logo.center(href='#') 
+                img.responsive-img(src='/images/userLogo/#{id}.png', alt='')
+            
+    .container.animated.fadeIn(ng-controller='newAnswerTypeController')
+
+        .row(style='margin-top:4%')
+            .col.s10.offset-s1(align='center')
+                h2.thin Crear Nuevo Tipo de Respuesta 
+
+        .row(style='margin-top:6%')
+            .input-field.col.s5.offset-s1
+              input#number.validate(type='number',ng-model='number', ng-change='select_option_number()')
+              label(for='number') Número de Respuestas
+        .row
+            .input-field.col.s4(ng-repeat='option in option_number')
+                input.validate(type='text',id='option{{option}}')
+                label(for='option{{option}}') Opción {{$index + 1}}
+        .row
+            .col.s4.offset-s10
+                button.btn.waves-effect.waves-light(type='submit', name='action', ng-click='save_options()',ng-class='color')
+                  | Guardar Respuestas
+                  i.material-icons.right save
+
+
+            
+
+    script(src='/javascripts/angular_controllers/new_answer_type_controller.js')
