@@ -3,7 +3,7 @@ extends layout
 block content
     style.
         body{
-            background-color: #00bcd4;
+            background-color: #574370;
         }
         .div_form{
             background-color: white;   
@@ -14,8 +14,8 @@ block content
         .row(style='margin-top:6%')
             .col.s4.offset-s4.z-depth-3.div_form
                 .row(style='margin-top:8%')
-                    .col.s10.offset-s1
-                        img.responsive-img(src='/images/ds.png')
+                    .col.s10.offset-s1(align='center')
+                        img.responsive-img(src='/images/logo_01.png')
                 .row
                     .input-field.col.s10.offset-s1(ng-class='name_null')
                       i.material-icons.prefix account_circle
@@ -32,16 +32,18 @@ block content
                       label(for='test5') No cerrar sesión
                 .row
                     .col.s10.offset-s1
-                        button.btn.waves-effect.waves-light.col.s12(type='submit', name='action', ng-click='login()')
+                        button.btn.waves-effect.waves-light.col.s12.purple.lighten-1(type='submit', name='action', ng-click='login()')
                           | Acceder
                 .row(style='font-size:80%')
                     .col.s3.offset-s1
                         p
-                            a(href='/newUser')
+                            a(href='/newUser').purple-text.text-lighten-1
                                 | ¡Registrate!
                     .col.s6.offset-s1
                         p
-                            a(href='#')
+                            a(href='#').purple-text.text-lighten-1
                                 ¿Olvidaste tu contraseña?
 
+    script(src='/javascripts/angular_controllers/login_controller.js')
+      
 block footer
