@@ -11,6 +11,7 @@ block content
 
 
 
+
   nav(style='height:95px',ng-controller='indexController',ng-class='color').animated.fadeInDown
     .nav-wrapper
       a.brand-logo.center(href='#')
@@ -22,33 +23,65 @@ block content
             i.material-icons play_for_work
 
 
-      
+      ul.left.hide-on-med-and-down(style='margin-top:1%')
+        li
+          a.button-collapse.show-on-large(href='#', data-activates='slide-out')
+            i.material-icons menu 
 
+  ul#slide-out.side-nav(ng-controller='indexController')
+        li
+          .userView
+            img.background.responsive-img(src='images/target_img.png',style='position:absolute;z-index:-1')
+            a(href='#!user',style='padding-top:4%')
+              img.responsive-img(src='/images/userLogo/#{user_id}.png')
+            a(href='#!name')
+              span.black-text.name.bold {{user_name}}
+            a(href='#!email')
+              span.black-text.email.bold {{user_email}}
+
+        li.bold
+          a.waves-effect
+           i.material-icons(style='padding-right:4%') mode_edit
+           |Editar Perfil
+        li
+          .divider
+        li.bold
+          a.waves-effect
+            i.material-icons(style='padding-right:4%') local_atm
+            |Medio de Pago
+
+
+  
+  
+  
+        
     
-  .container(ng-controller='indexController',style='margin-top:3%')
-      .row.animated.fadeIn
+  .contain(ng-controller='indexController',style='margin-top:3%')
+      .row.animated.fadeInUp
+
         each val,index in surveys
-          .col.s12.m6
-              .card.medium
-                .card-image
-                  img(src='/images/4.png')
-                  span.card-title= val.nombre
+          .col.s12(class=val.tamano_col)
+              .card
+                //.card-image
+                  img(src='/images/target_img.png')
+                  
                 .card-content
+                  span.card-title.black-text.regular= val.nombre
                   p= val.descripcion
                     
                 .card-action
                   a.dropdown-button.btn(href='#', data-activates='dropdown'+index, ng-class='color') Opciones
 
-                  // Dropdown Structure
+                  //Dropdown Structure
                   ul(id='dropdown'+index).dropdown-content
-                    li
+                    li.bold
                       a(href='/survey/'+val._id) Ver 
-                    li
+                    li.bold
                       a(href='#!') Editar
                     li.divider
-                    li
+                    li.bold
                       a.modal-trigger(href='#modal1', ng-click='obtain_graphs_data("#{val._id}")') Estadísticos
-                    li
+                    li.bold
                       a(ng-click='makeQR("#{val._id}")') Código QR
 
 
@@ -79,13 +112,13 @@ block content
 
             .row(style='margin-top:-5%',ng-hide='div_survey_details')
               .col.s12
-                p {{question_name}}
+                p.bold {{question_name}}
 
             .row#canvas_div
               canvas#myChart(width='400', height='145',ng-hide='div_survey_details')
             .row(ng-show='div_survey_details')
                 
-              h5.thin Resumen:
+              h5.thin.bold Resumen:
               .row
                 .col.s12
                   h5.thin Nombre de la encuesta: 
@@ -112,7 +145,7 @@ block content
 
 
             .row
-              h5.thin Filtros:
+              h5.thin.bold Filtros:
               .row
                 .input-field.col.s4
                     select(multiple='',ng-model='valid_filters', ng-change='show_filters()')
@@ -136,9 +169,9 @@ block content
 
                 
 
+          
 
-
-                    
+               
   
   .fixed-action-btn.horizontal(style='bottom: 45px; right: 24px;')
       a.btn-floating.btn-large.red.waves-effect.waves-light(href='/survey/new')
@@ -164,9 +197,11 @@ block content
       });
 
 
+
   script.
     var surveys = !{JSON.stringify(surveys)};
     moment.locale("es");
+
 
   block footer
 
