@@ -17,11 +17,11 @@ block content
         .row(style='margin-top:6%')
             .input-field.col.s5.offset-s1
               input#number.validate(type='number',ng-model='number', ng-change='select_option_number()')
-              label(for='number') Número de Respuestas
+              label.regular(for='number') Número de Respuestas
         .row
             .input-field.col.s4(ng-repeat='option in option_number')
                 input.validate(type='text',id='option{{option}}')
-                label(for='option{{option}}') Opción {{$index + 1}}
+                label.regular(for='option{{option}}') Opción {{$index + 1}}
         .row
             .col.s4.offset-s10
                 button.btn.waves-effect.waves-light(type='submit', name='action', ng-click='save_options()',ng-class='color')

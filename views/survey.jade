@@ -26,7 +26,7 @@ block content
         each question in survey.preguntas
             .row
                 .col.s12
-                    h4.thin=question.number+'. '+question.question
+                    h4.thin.regular=question.number+'. '+question.question
             
             .row
                 if question.type != 'Abierta'
@@ -34,7 +34,7 @@ block content
                         .col.s2
                             p
                               input.with-gap(name='group'+question.number, type='radio', id=question.number+option,value=option ,ng-model='answer['+question.number+']')
-                              label(for=question.number+option)=option
+                              label.bold(for=question.number+option)=option
                 else
 
                     .input-field.col.s12

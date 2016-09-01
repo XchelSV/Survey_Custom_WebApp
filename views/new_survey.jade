@@ -17,26 +17,26 @@ block content
         .row(style='margin-top:2%')
             .row
                 .col.s3
-                    h5.thin Nueva Pregunta
+                    h5.thin.regular Nueva Pregunta
             .row
                 .input-field.col.s6
                   input#name_survey.validate(type='text',ng-model='titulo')
-                  label(for='name_survey').blue-grey-text Título de la Encuesta
+                  label.regular(for='name_survey').blue-grey-text Título de la Encuesta
 
                 .input-field.col.s6
                     textarea#textarea1.materialize-textarea(ng-model='descripcion')
-                    label(for='textarea1').blue-grey-text Descripción
+                    label.regular(for='textarea1').blue-grey-text Descripción
             .row
                 .input-field.col.s6
                   input#name.validate(type='text',ng-model='question',ng-class='question_null')
-                  label(for='name').blue-grey-text Enunciado de la Pregunta
+                  label(for='name').regular.blue-grey-text Enunciado de la Pregunta
 
                 .input-field.col.s6
                       select(ng-model='type_id',ng-class='[type_null]')
                         option(value='', disabled, selected) Tipo de Pregunta
                         option(ng-repeat='type in types',value='{{type._id}}',on-finish-render="ngRepeatFinished") {{type.nombre}}
                         option(value='Abierta') Abierta (Sin Estadísticos)
-                      label Tipo
+                      label.regular Tipo
             .row
                 .col.s2.offset-s10
                     a.waves-effect.waves-light.btn.col.s12(ng-click='add_question()',ng-class='color')
@@ -46,15 +46,15 @@ block content
         .row
             .row
                 .col.s3
-                    h5.thin Vista Previa
+                    h5.thin.bold Vista Previa
             .row
                 .col.s12
-                    h3.thin(align='center') {{titulo}}
+                    h3.thin.regular(align='center') {{titulo}}
 
             .row(ng-repeat='ques in questions')
                 .row
                     .col.s10.offset-s1
-                        h5.thin
+                        h5.thin.regular
                             {{ques.number}}. {{ques.question}}
                     .col.s1
                       a.btn-floating.btn-large.waves-effect.waves-light.red(ng-click='delete_question(ques.number)')
@@ -63,7 +63,7 @@ block content
                     .col.s2(ng-repeat='option in ques.options_type')
                         p
                           input.with-gap(type='radio',id='test{{option}}{{ques.number}}',name='group{{ques.number}}')
-                          label(for='test{{option}}{{ques.number}}') {{option}}
+                          label.bold(for='test{{option}}{{ques.number}}') {{option}}
 
             .row
                 .col.s3.offset-s9

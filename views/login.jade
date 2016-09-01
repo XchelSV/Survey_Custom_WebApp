@@ -8,6 +8,7 @@ block content
         .div_form{
             background-color: white;   
         }
+        
 
 
     .container.animated.fadeIn(ng-controller='loginController')
@@ -20,28 +21,28 @@ block content
                     .input-field.col.s10.offset-s1(ng-class='name_null')
                       i.material-icons.prefix account_circle
                       input#icon_prefix.validate(type='text', ng-model='nombre')
-                      label(for='icon_prefix') Nombre/Empresa
+                      label.regular(for='icon_prefix') Nombre/Empresa
                 .row
                     .input-field.col.s10.offset-s1(ng-class='pass_null')
                       i.material-icons.prefix lock_outline
                       input#icon_prefix.validate(type='password', ng-model='contrasena')
-                      label(for='icon_prefix') Contraseña
+                      label.regular(for='icon_prefix') Contraseña
                 .row(style='margin-top:-6%')
                     p.col.s10.offset-s1
                       input#test5(type='checkbox', ng-model='sesion')
-                      label(for='test5') No cerrar sesión
+                      label.regular(for='test5') No cerrar sesión
                 .row
                     .col.s10.offset-s1
-                        button.btn.waves-effect.waves-light.col.s12.purple.lighten-1(type='submit', name='action', ng-click='login()')
+                        button.btn.waves-effect.waves-light.col.s12.deep-purple.lighten-2(type='submit', name='action', ng-click='login()')
                           | Acceder
                 .row(style='font-size:80%')
                     .col.s3.offset-s1
-                        p
-                            a(href='/newUser').purple-text.text-lighten-1
+                        p.bold
+                            a(href='/newUser').purple-text.text-darken-3
                                 | ¡Registrate!
-                    .col.s6.offset-s1
-                        p
-                            a(href='#').purple-text.text-lighten-1
+                    .col.s7
+                        p.bold
+                            a(href='#').purple-text.text-darken-3
                                 ¿Olvidaste tu contraseña?
 
     script(src='/javascripts/angular_controllers/login_controller.js')
