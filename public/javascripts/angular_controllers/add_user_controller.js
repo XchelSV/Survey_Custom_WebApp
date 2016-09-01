@@ -65,6 +65,10 @@ app.controller ('addUserController',function  ($scope , $http, $cookies) {
 										Materialize.toast('Error al guardar Imagen', 4000)
 									};
 
+									if (response.status === 401) {
+										Materialize.toast('El nombre ya Existe', 4000)
+									};
+
 								});
 
 					    	}
