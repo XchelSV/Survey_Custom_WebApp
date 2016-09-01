@@ -12,6 +12,7 @@ var surveySchema = mongoose.Schema({
     nombre: String,
     date: Date,
     descripcion: String,
+    tamano_col: String,
     preguntas:[questionSchema]
 });
 
