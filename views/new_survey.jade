@@ -12,7 +12,7 @@ block content
     .container.animated.fadeIn(ng-controller='newSurveyController')
 
         .row(style='margin-top:2%')
-            .col.s7.offset-s3
+            .col.s8.offset-s2(align='center')
                 h2.thin Registro de Encuesta
         .row(style='margin-top:2%')
             .row
@@ -20,7 +20,7 @@ block content
                     h5.thin.regular Nueva Pregunta
             .row
                 .input-field.col.s6
-                  input#name_survey.validate(type='text',ng-model='titulo')
+                  input#name_survey.validate(type='text',ng-model='titulo',length = '45')
                   label.regular(for='name_survey').blue-grey-text Título de la Encuesta
 
                 .input-field.col.s6
@@ -28,7 +28,7 @@ block content
                     label.regular(for='textarea1').blue-grey-text Descripción
             .row
                 .input-field.col.s6
-                  input#name.validate(type='text',ng-model='question',ng-class='question_null')
+                  input#name.validate(type='text',ng-model='question',ng-class='question_null',length='65' validate)
                   label(for='name').regular.blue-grey-text Enunciado de la Pregunta
 
                 .input-field.col.s6
@@ -48,7 +48,7 @@ block content
                 .col.s3
                     h5.thin.bold Vista Previa
             .row
-                .col.s12
+                .col.s12.m12
                     h3.thin.regular(align='center') {{titulo}}
 
             .row(ng-repeat='ques in questions')

@@ -32,17 +32,26 @@ app.controller ('newSurveyController',function  ($scope , $http, $cookies) {
 				$scope.type_null = 'animated shake'
 				Materialize.toast('Selecciona un Tipo', 4000)
 			}else{
-				
-				question_i++;
-				for (var i = 0; i < $scope.types.length; i++) {
-					if($scope.types[i]._id == $scope.type_id){
-						$scope.options_type = $scope.types[i].opciones;
-					}
-				};
 
-				$scope.questions.push({number:question_i,question:$scope.question,type:$scope.type_id, options_type: $scope.options_type})
-				$scope.question = undefined;
-				$scope.type_id = undefined;
+				if($scope.question.length > 65){
+
+					Materialize.toast('Pregunta muy Larga', 4000)
+
+				}
+				else{
+
+
+					question_i++;
+					for (var i = 0; i < $scope.types.length; i++) {
+						if($scope.types[i]._id == $scope.type_id){
+							$scope.options_type = $scope.types[i].opciones;
+						}
+					};
+
+					$scope.questions.push({number:question_i,question:$scope.question,type:$scope.type_id, options_type: $scope.options_type})
+					$scope.question = undefined;
+					$scope.type_id = undefined;
+				}
 				
 				
 			}	
@@ -73,19 +82,30 @@ app.controller ('newSurveyController',function  ($scope , $http, $cookies) {
 
 			else{
 
-			var encuesta = {nombre: $scope.titulo,descripcion:$scope.descripcion ,preguntas: $scope.questions};
-			$http.post('/survey',encuesta).then(function success (response){
+				if($scope.titulo.length > 45){
 
-					window.location = "/index";
-					
+					Materialize.toast('Título muy Largo', 4000)
 
-			}, function error (response) {
-					
-					if (response.status === 500) {
-							Materialize.toast('Error al Guardar Encuesta', 4000)
-					};
+				}
+				else{
 
-			});
+					var encuesta = {nombre: $scope.titulo,descripcion:$scope.descripcion ,preguntas: $scope.questions};
+					$http.post('/survey',encuesta).then(function success (response){
+
+							window.location = "/index";
+							
+
+					}, function error (response) {
+							
+							if (response.status === 500) {
+									Materialize.toast('Error al Guardar Encuesta', 4000)
+							};
+
+					});
+
+				}
+
+			
 			}
 		}		
 
