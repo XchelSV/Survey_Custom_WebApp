@@ -37,6 +37,10 @@ app.controller ('surveyController',function  ($scope , $http, $cookies) {
 								Materialize.toast('Error al Envíar Respuestas', 4000)
 						};
 
+						if (response.status === 401) {
+								Materialize.toast('Encuesta ya contestada', 4000)
+						};
+
 			});
 		}
 		else{
