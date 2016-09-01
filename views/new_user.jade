@@ -33,7 +33,7 @@ block content
 
     .container(ng-controller='addUserController')
         .row(style='margin-top:3%')
-            .col.s6.offset-s3
+            .col.s8.offset-s2(align='center')
                 h2.thin
                     | Registro de Usuario
         .row.animated.fadeIn
@@ -43,19 +43,19 @@ block content
                     .row
                       .input-field
                         input#first_name.validate(type='text',required, ng-model='nombre',ng-class='name_null')
-                        label(for='first_name') Nombre/Empresa
+                        label.regular(for='first_name') Nombre/Empresa
                     .row
                       .input-field
                         input#place.validate(type='text',required, ng-model='direccion',ng-class='dir_null')
-                        label(for='place') Dirección
+                        label.regular(for='place') Dirección
                     .row
                       .input-field
                         input#password.validate(type='password',required, ng-model='contrasena',ng-class='pass_null')
-                        label(for='password') Contraseña
+                        label.regular(for='password') Contraseña
                     .row
                       .input-field
                         input#email.validate(type='email',required, ng-model='correo',ng-class='mail_null')
-                        label(for='email',data-error="wrong", data-success="right") Correo Electónico
+                        label.regular(for='email',data-error="wrong", data-success="right") Correo Electónico
 
                 #image-cropper.col.s5.offset-s1(style='margin-top:4%')
                       // This is where the preview image is displayed
@@ -118,8 +118,9 @@ block content
               button.btn-large.waves-effect.col.s3.deep-purple.lighten-2(style='height:40px', ng-click='color_class("deep-purple lighten-2")')
 
 
+    script(src='/javascripts/angular_controllers/add_user_controller.js')
 block footer
-script(src='/javascripts/angular_controllers/add_user_controller.js')
+
                 
 
 
