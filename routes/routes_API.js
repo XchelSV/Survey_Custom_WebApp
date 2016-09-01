@@ -63,33 +63,47 @@ newType2.save(function(err){
 			}
 			
 
-			var newUser = new User({
+			User.findOne({nombre:request.body.nombre},function (err,user){
 
-				nombre : request.body.nombre,
-				direccion : request.body.direccion,
-				password : request.body.contrasena,
-				email : request.body.correo,
-				color: request.body.color,
-				image_path : type
+				if(user == undefined){
+
+					var newUser = new User({
+
+						nombre : request.body.nombre,
+						direccion : request.body.direccion,
+						password : request.body.contrasena,
+						email : request.body.correo,
+						color: request.body.color,
+						image_path : type
+
+					})
+
+					newUser.save(function (err, user){
+
+						var fs = require('fs');
+						fs.writeFile('./public/images/userLogo/'+user._id+type, imageBuffer.data, function(err) { 
+
+							if (err){
+								User.remove({_id:user._id});
+								response.sendStatus(500);
+								throw err;	
+							}
+							else{
+								response.sendStatus(200);
+							}
+
+						});
+					})
+
+				}
+				else{
+					response.sendStatus(401);
+				}
+
 
 			})
 
-			newUser.save(function (err, user){
-
-				var fs = require('fs');
-				fs.writeFile('./public/images/userLogo/'+user._id+type, imageBuffer.data, function(err) { 
-
-					if (err){
-						User.remove({_id:user._id});
-						response.sendStatus(500);
-						throw err;	
-					}
-					else{
-						response.sendStatus(200);
-					}
-
-				});
-			})
+			
 
 
 		})
@@ -165,83 +179,135 @@ newType2.save(function(err){
 		app.route('/options/type')
 
 			.get(function (request,response){
-				option_type.find('',function (err,docs){
 
-					if(err) throw err;
+				if (request.session._id){
 
-					response.send(docs);
+					option_type.find('',function (err,docs){
 
-				})
+						if(err) throw err;
+
+						response.send(docs);
+
+					})
+
+				}
+						else{
+								request.session.destroy(function (err){
+								response.redirect('/');
+							})
+						}
+				
 			})
 
 			.post(function (request,response){
 
-				var newOption = new option_type({
-					nombre: request.body.name,
-					opciones: request.body.option_values
-				})
+				if (request.session._id){
 
-				newOption.save(function (err,saved){
+					var newOption = new option_type({
+						nombre: request.body.name,
+						opciones: request.body.option_values
+					})
 
-					if(err){
-						throw err;
-						response.sendStatus(500);
-					}
+					newOption.save(function (err,saved){
 
-					response.sendStatus(200);
+						if(err){
+							throw err;
+							response.sendStatus(500);
+						}
 
-				})
+						response.sendStatus(200);
+
+					})
+
+				}
+						else{
+								request.session.destroy(function (err){
+								response.redirect('/');
+							})
+						}
+
+				
 
 
 			})
 
-		var col_size = 12;
+		
+		
+
+		var col_size;
+		RedisClient.exists('col_size', function(err, reply) {
+		    if (reply === 1) {
+		        RedisClient.get("col_size", function (err,reply){
+		        	col_size = reply;
+		        })
+		    } else {
+				RedisClient.set("col_size", 12);
+				col_size = 12;
+
+		    }
+		});
+
 		app.route('/survey')
 
 			.post(function (request,response){
 
-				var col;
-				if (col_size > 6){
-					if(col_size == 7){
-						col = Math.floor(Math.random() * (4 - 3 + 1) + 3)
-						col_size = 	col_size - col;	
-					}
-					else{
-						col = Math.floor(Math.random() * (5 - 3 + 1) + 3)
-						col_size = 	col_size - col;
-					}
-				}else{
 
-					col = col_size;
-					col_size = 12;
+				if (request.session._id){
+
+					var col;
+					if (col_size > 6){
+						if(col_size == 7){
+							col = Math.floor(Math.random() * (4 - 3 + 1) + 3)
+							col_size = 	col_size - col;
+							RedisClient.set("col_size", col_size);
+						}
+						else{
+							col = Math.floor(Math.random() * (5 - 3 + 1) + 3)
+							col_size = 	col_size - col;
+							RedisClient.set("col_size", col_size);
+						}
+					}else{
+
+						col = col_size;
+						col_size = 12;
+						RedisClient.set("col_size", col_size);
+
+					}
+					console.log(col_size);
+					
+
+
+					var date = new Date();
+					var newSurvey = new Survey({
+
+						user_id: request.session.user_id,
+						nombre: request.body.nombre,
+						date: date,
+						descripcion: request.body.descripcion,
+						preguntas: request.body.preguntas,
+						tamano_col: 'm'+ String(col)
+
+					})
+
+					newSurvey.save(function (err, saved){
+
+						if(err){
+							throw err;
+							response.sendStatus(500);
+						}
+
+						response.sendStatus(200);
+
+					})
 
 				}
-				console.log(col_size);
+						else{
+								request.session.destroy(function (err){
+								response.redirect('/');
+							})
+						}
+
 				
-
-
-				var date = new Date();
-				var newSurvey = new Survey({
-
-					user_id: request.session.user_id,
-					nombre: request.body.nombre,
-					date: date,
-					descripcion: request.body.descripcion,
-					preguntas: request.body.preguntas,
-					tamano_col: 'm'+ String(col)
-
-				})
-
-				newSurvey.save(function (err, saved){
-
-					if(err){
-						throw err;
-						response.sendStatus(500);
-					}
-
-					response.sendStatus(200);
-
-				})
 
 			})
 
@@ -249,59 +315,101 @@ newType2.save(function(err){
 
 			.get(function (request,response){
 
-				var survey_id = request.params.survey_id;
-				Answer.find({survey_id:survey_id},function (err, answers){
+				if (request.session._id){
 
-					if (err){throw err; response.sendStatus(500);}
-					else{
+					var survey_id = request.params.survey_id;
+					Answer.find({survey_id:survey_id},function (err, answers){
 
-						response.send(answers);
+						if (err){throw err; response.sendStatus(500);}
+						else{
 
-					}
+							response.send(answers);
 
-				})
+						}
+
+					})
+
+				}
+						else{
+								request.session.destroy(function (err){
+								response.redirect('/');
+							})
+						}
 
 			})
 
 			.post(function (request,response){
 
-				var survey_id = request.params.survey_id;
-				var date = new Date();
-				console.log(request.body.answers);
+				if (request.session._id){
 
-				Survey.findById(survey_id, function (err, doc){
-					if(err){
-						throw err;
-						response.sendStatus(500);
-					}
+					var survey_id = request.params.survey_id;
+					var date = new Date();
+					console.log(request.body.answers);
 
-					if (doc != undefined) {
+					Survey.findById(survey_id, function (err, doc){
+						if(err){
+							throw err;
+							response.sendStatus(500);
+						}
 
-						var newAnswer = new Answer({
+						if (doc != undefined) {
 
-							survey_id: survey_id,
-							date: date,
-							answers: request.body.answers,
-							email: request.body.email,
-							gender: request.body.gender
+							Answer.find({survey_id: survey_id, email: request.body.email},function (err,ans){
 
-						})
+								if(err){
+									throw err;
+									response.sendStatus(500);
+								}
 
-						newAnswer.save(function (err,saved){
+								console.log(ans);
+								if(ans[0] == undefined){
 
-							if(err){
-								throw err;
-								response.sendStatus(500);
-							}
+									var newAnswer = new Answer({
 
-							response.sendStatus(200);
-						})
+										survey_id: survey_id,
+										date: date,
+										answers: request.body.answers,
+										email: request.body.email,
+										gender: request.body.gender
 
-					}
-					else{
-						response.sendStatus(500);
-					}
-				})
+									})
+
+									newAnswer.save(function (err,saved){
+
+										if(err){
+											throw err;
+											response.sendStatus(500);
+										}
+
+										response.sendStatus(200);
+									})
+
+								}
+								else{
+
+									response.sendStatus(401);	
+
+								}
+
+							})
+
+							
+
+						}
+						else{
+							response.sendStatus(500);
+						}
+					})
+
+
+				}
+						else{
+								request.session.destroy(function (err){
+								response.redirect('/');
+							})
+						}
+
+				
 
 			})
 
