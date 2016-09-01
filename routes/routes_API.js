@@ -195,9 +195,30 @@ newType2.save(function(err){
 
 			})
 
+		var col_size = 12;
 		app.route('/survey')
 
 			.post(function (request,response){
+
+				var col;
+				if (col_size > 6){
+					if(col_size == 7){
+						col = Math.floor(Math.random() * (4 - 3 + 1) + 3)
+						col_size = 	col_size - col;	
+					}
+					else{
+						col = Math.floor(Math.random() * (5 - 3 + 1) + 3)
+						col_size = 	col_size - col;
+					}
+				}else{
+
+					col = col_size;
+					col_size = 12;
+
+				}
+				console.log(col_size);
+				
+
 
 				var date = new Date();
 				var newSurvey = new Survey({
@@ -206,7 +227,8 @@ newType2.save(function(err){
 					nombre: request.body.nombre,
 					date: date,
 					descripcion: request.body.descripcion,
-					preguntas: request.body.preguntas
+					preguntas: request.body.preguntas,
+					tamano_col: 'm'+ String(col)
 
 				})
 
