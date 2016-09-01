@@ -197,20 +197,18 @@ app.controller ('indexController',function  ($scope , $http, $cookies) {
                 label: '# Respuestas',
                 data: answers,
                 backgroundColor: [
-	                'rgba(255, 99, 132, 0.2)',
-	                'rgba(54, 162, 235, 0.2)',
-	                'rgba(255, 206, 86, 0.2)',
-	                'rgba(75, 192, 192, 0.2)',
-	                'rgba(153, 102, 255, 0.2)',
-	                'rgba(255, 159, 64, 0.2)'
+	                'rgba(97, 96, 106, 0.5)',
+	                'rgba(212, 180, 57, 0.5)',
+	                'rgba(87, 67, 112, 0.5)',
+	                'rgba(242, 219, 91, 0.5)',
+	                'rgba(128, 114, 149, 0.5)'
                 ],
                 borderColor: [
-	                'rgba(255,99,132,1)',
-	                'rgba(54, 162, 235, 1)',
-	                'rgba(255, 206, 86, 1)',
-	                'rgba(75, 192, 192, 1)',
-	                'rgba(153, 102, 255, 1)',
-	                'rgba(255, 159, 64, 1)'
+	                'rgba(97, 96, 106, 1)',
+	                'rgba(212, 180, 57, 1)',
+	                'rgba(87, 67, 112, 1)',
+	                'rgba(242, 219, 91, 1)',
+	                'rgba(128, 114, 149, 1)'
                 ],
                 borderWidth: 1
                 }]
