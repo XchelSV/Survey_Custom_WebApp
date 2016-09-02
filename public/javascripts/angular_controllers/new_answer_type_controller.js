@@ -1,6 +1,6 @@
 app.controller ('newAnswerTypeController',function  ($scope , $http, $cookies) {
 
-	$scope.color = $cookies.color;
+	$scope.color = decodeURIComponent($cookies.color);
 
 	$scope.option_number = [];
 	$scope.select_option_number = function (){

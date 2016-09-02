@@ -1,8 +1,8 @@
 app.controller ('indexController',function  ($scope , $http, $cookies) {
 
-	$scope.color = $cookies.color;
-	$scope.user_name = $cookies.nombre;
-	$scope.user_email = $cookies.correo;
+	$scope.color = decodeURIComponent($cookies.color);
+	$scope.user_name = decodeURIComponent($cookies.nombre);
+	$scope.user_email = decodeURIComponent($cookies.correo);
 
 
 	$('.modal-trigger').leanModal({

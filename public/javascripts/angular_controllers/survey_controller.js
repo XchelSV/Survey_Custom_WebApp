@@ -1,7 +1,7 @@
 app.controller ('surveyController',function  ($scope , $http, $cookies) {
  	
  	$scope.answer = [];
- 	$scope.color = $cookies.color;
+ 	$scope.color = decodeURIComponent($cookies.color);
  	$('#gender').material_select();
  	
 	$scope.send_answers = function (){

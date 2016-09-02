@@ -1,6 +1,6 @@
 app.controller ('newSurveyController',function  ($scope , $http, $cookies) {
 
-	$scope.color = $cookies.color;
+	$scope.color = decodeURIComponent($cookies.color);
 	$(document).ready(function() {
 	    $('select').material_select();
 	});

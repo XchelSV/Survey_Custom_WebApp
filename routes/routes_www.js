@@ -26,7 +26,7 @@ module.exports = (function (app, RedisClient, uuid){
 	.get(function (request, response){
 
 		if (request.session._id){
-				response.render('new_survey',{id: request.session.user_id, nombre: request.cookies.nombre, direccion: request.cookies.direccion, correo: request.cookies.correo, color: request.cookies.color });
+				response.render('new_survey',{id: request.session.user_id, nombre: decodeURIComponent(request.cookies.nombre), direccion: decodeURIComponent(request.cookies.direccion), correo: decodeURIComponent(request.cookies.correo), color: decodeURIComponent(request.cookies.color)});
 			}
 		else{
 				request.session.destroy(function (err){
@@ -41,6 +41,23 @@ module.exports = (function (app, RedisClient, uuid){
 	.get(function (request, response){
 
 		response.render('new_user');
+
+	})
+
+	app.route('/update/user')
+
+	.get(function (request, response){
+
+		if (request.session._id){
+
+			response.render('edit_user',{user_id: request.session.user_id});
+
+		}
+		else{
+				request.session.destroy(function (err){
+				response.render('login');
+			})
+		}
 
 	})
 
@@ -64,7 +81,7 @@ module.exports = (function (app, RedisClient, uuid){
 	.get(function (request, response){
 
 		if (request.session._id){
-				response.render('new_answer_type',{id: request.session.user_id, nombre: request.cookies.nombre, direccion: request.cookies.direccion, correo: request.cookies.correo, color: request.cookies.color });
+				response.render('new_answer_type',{id: request.session.user_id, nombre: decodeURIComponent(request.cookies.nombre), direccion: decodeURIComponent(request.cookies.direccion), correo: decodeURIComponent(request.cookies.correo), color: decodeURIComponent(request.cookies.color) });
 			}
 		else{
 				request.session.destroy(function (err){
