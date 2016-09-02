@@ -87,6 +87,14 @@ app.controller ('indexController',function  ($scope , $http, $cookies) {
 		for (var i = 0; i < surveys.length; i++) {
 			if (surveys[i]._id == survey_id){
 				$scope.survey = surveys[i];
+
+				if($scope.survey.nombre.length > 30){
+					$scope.survey.nombre_slice = $scope.survey.nombre.slice(0,17)+'...'
+				}
+				else{
+					$scope.survey.nombre_slice = $scope.survey.nombre	
+				}
+
 				$scope.date = moment($scope.survey.date).format('DD MMMM YYYY');
 				//$scope.date = moment($scope.survey.date).fromNow();
 

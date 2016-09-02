@@ -66,8 +66,15 @@ block content
                   img(src='/images/target_img.png')
                   
                 .card-content
-                  span.card-title.black-text.regular= val.nombre
-                  p= val.descripcion
+                  if val.nombre.length <= 30
+                    span.card-title.black-text.regular= val.nombre
+                    if val.descripcion.length <= 45
+                      p= val.descripcion
+
+                  else
+                    span.card-title.black-text.regular= val.nombre.slice(0, 25)+ '...'
+                    if val.descripcion.length > 45
+                      p= val.descripcion.slice(0,40)+'...'
                     
                 .card-action
                   a.dropdown-button.btn(href='#', data-activates='dropdown'+index, ng-class='color') Opciones
@@ -104,7 +111,7 @@ block content
           .modal-content
             .row
               .col.s6
-                h4.thin {{survey.nombre}}
+                h4.thin {{survey.nombre_slice}}
               .col.s4.offset-s1
                 select(ng-model='question_number_id',ng-change='show_graphs_by_question()')
                     option(value='', disabled, selected) Selecciona una Pregunta
