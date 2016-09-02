@@ -342,20 +342,6 @@ newType2.save(function(err){
 			})
 
 		
-		
-
-		var col_size;
-		RedisClient.exists('col_size', function(err, reply) {
-		    if (reply === 1) {
-		        RedisClient.get("col_size", function (err,reply){
-		        	col_size = reply;
-		        })
-		    } else {
-				RedisClient.set("col_size", 12);
-				col_size = 12;
-
-		    }
-		});
 
 		app.route('/survey')
 
@@ -363,27 +349,6 @@ newType2.save(function(err){
 
 
 				if (request.session._id){
-
-					var col;
-					if (col_size > 6){
-						if(col_size == 7){
-							col = Math.floor(Math.random() * (4 - 3 + 1) + 3)
-							col_size = 	col_size - col;
-							RedisClient.set("col_size", col_size);
-						}
-						else{
-							col = Math.floor(Math.random() * (5 - 3 + 1) + 3)
-							col_size = 	col_size - col;
-							RedisClient.set("col_size", col_size);
-						}
-					}else{
-
-						col = col_size;
-						col_size = 12;
-						RedisClient.set("col_size", col_size);
-
-					}
-					console.log(col_size);
 					
 
 
@@ -395,7 +360,6 @@ newType2.save(function(err){
 						date: date,
 						descripcion: request.body.descripcion,
 						preguntas: request.body.preguntas,
-						tamano_col: 'm'+ String(col)
 
 					})
 
@@ -418,6 +382,24 @@ newType2.save(function(err){
 						}
 
 				
+
+			})
+		
+		app.route('/survey/:survey_id')
+
+			.delete(function (request, response){
+
+				var survey_id = request.params.survey_id;
+				Survey.remove({_id: survey_id}, function (err, deleted){
+
+					if(err){
+						response.sendStatus(500);
+					}
+					else{
+						response.sendStatus(200);
+					}
+
+				})
 
 			})
 

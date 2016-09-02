@@ -27,6 +27,33 @@ app.controller ('indexController',function  ($scope , $http, $cookies) {
 		    }
 	);
 
+    $scope.delete_modal = function (survey_id){
+
+    	$('#delete_modal').openModal();
+    	$scope.survey_id_4_delete = survey_id;
+
+    }
+    $scope.close_delete_modal = function (){
+
+    	$('#delete_modal').closeModal();
+
+    }
+
+    $scope.delete_survey = function (){
+
+    	$http.delete('/survey/'+$scope.survey_id_4_delete).then(function success (response){
+			
+			window.location = "/index";
+
+		}, function error (response) {
+
+			if (response.status === 500) {
+				Materialize.toast('Error al Eliminar Encuesta', 4000)
+			};
+
+		});
+
+    }
 
 	$scope.show_filters = function(){
 		$scope.show_filter_date = false;
