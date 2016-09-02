@@ -58,9 +58,47 @@ block content
     
   .contain(ng-controller='indexController',style='margin-top:3%')
       .row.animated.fadeInUp
-
+            
         each val,index in surveys
-          .col.s12(class=val.tamano_col)
+
+
+          .col.s12(id='card'+index)
+
+              script.
+
+                var i;
+                if (i === undefined){
+                  i = 0;
+                }
+
+                var col_size;
+                if (col_size === undefined){
+                  col_size = 12;
+                }
+
+                var col;
+                if (col_size > 6){
+                  if(col_size == 7){
+                    col = Math.floor(Math.random() * (4 - 3 + 1) + 3)
+                    col_size =  col_size - col;
+                  }
+                  else{
+                    col = Math.floor(Math.random() * (5 - 3 + 1) + 3)
+                    col_size =  col_size - col;
+                    
+                  }
+                }else{
+
+                  col = col_size;
+                  col_size = 12;
+                  
+                }
+
+                var card = document.getElementById('card'+i)
+                console.log(card);
+                card.className += ' m'+col;
+                i++;
+
               .card
                 //.card-image
                   img(src='/images/target_img.png')
@@ -70,10 +108,14 @@ block content
                     span.card-title.black-text.regular= val.nombre
                     if val.descripcion.length <= 45
                       p= val.descripcion
+                    else
+                      p= val.descripcion.slice(0,40)+'...'  
 
                   else
                     span.card-title.black-text.regular= val.nombre.slice(0, 25)+ '...'
-                    if val.descripcion.length > 45
+                    if val.descripcion.length <= 45
+                      p= val.descripcion
+                    else
                       p= val.descripcion.slice(0,40)+'...'
                     
                 .card-action
@@ -83,13 +125,16 @@ block content
                   ul(id='dropdown'+index).dropdown-content
                     li.bold
                       a(href='/survey/'+val._id) Ver 
-                    li.bold
-                      a(href='#!') Editar
+
                     li.divider
                     li.bold
                       a.modal-trigger(href='#modal1', ng-click='obtain_graphs_data("#{val._id}")') Estadísticos
                     li.bold
                       a(ng-click='makeQR("#{val._id}")') Código QR
+
+                    li.divider
+                      li.bold
+                        a(ng-click='delete_modal("#{val._id}")') Eliminar
 
 
       #qr_modal.modal
@@ -104,6 +149,25 @@ block content
 
         .modal-footer
           a.modal-action.modal-close.waves-effect.waves-green.btn-flat(href='#!') Exportar a PDF
+
+
+      #delete_modal.modal
+        .modal-content
+          .row
+            .col.s12
+              h5(align='center').bold ¿Deseas Eliminar esta Encuesta?
+            
+
+        .modal-footer.row
+          .col.s3.offset-s6
+            a.waves-effect.waves-light.btn.red.lighten-1(ng-click='delete_survey()')
+              i.material-icons.left delete
+              | Sí
+          .col.s3
+            a.waves-effect.waves-light.btn(ng-class='color',ng-click='close_delete_modal()')
+              i.material-icons.left close
+              | No
+
 
       
       // Modal Structure
