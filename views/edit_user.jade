@@ -1,0 +1,275 @@
+extends layout
+
+block content
+    style.
+        .cropit-preview {
+            background-color: #f8f8f8;
+            background-size: cover;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin-top: 7px;
+            width: 400px;
+            height: 91px;
+          }
+
+          /* Translucent background image */
+        .cropit-preview-background {
+          opacity: .2;
+        }
+
+        /*
+         * If the slider or anything else is covered by the background image,
+         * use relative or absolute position on it
+         */
+        input.cropit-image-zoom-input {
+          position: relative;
+        }
+
+        /* Limit the background image by adding overflow: hidden */
+        #image-cropper {
+          overflow: hidden;
+        }
+
+
+    .container(ng-controller='editUserController')
+        .row(style='margin-top:3%')
+            .col.s8.offset-s2(align='center')
+                h2.thin
+                    | Perfil del Usuario
+        .row.animated.fadeIn
+          form().col.s12
+            .row
+                .col.s6
+                    .row
+                      .input-field
+                        input#first_name.validate(type='text',required, ng-model='nombre',ng-class='name_null')
+                        label.regular(for='first_name') Nombre/Empresa
+                    .row
+                      .input-field
+                        input#place.validate(type='text',required, ng-model='direccion',ng-class='dir_null')
+                        label.regular(for='place') Dirección
+                    .row
+                      .input-field
+                        input#password.validate(type='password',required, ng-model='contrasena',ng-class='pass_null')
+                        label.regular(for='password') Contraseña
+                    .row
+                      .input-field
+                        input#email.validate(type='email',required, ng-model='correo',ng-class='mail_null')
+                        label.regular(for='email',data-error="wrong", data-success="right") Correo Electónico
+
+                #image-cropper.col.s5.offset-s1(style='margin-top:4%')
+
+                      //preview image
+                      .row(ng-hide='check_image')
+                        img.responsive-img(src='/images/userLogo/#{user_id}.png', alt='')
+
+                      // This is where the preview image is displayed
+                      .row(ng-show='check_image')
+                        .cropit-preview
+                      
+                      .row(ng-show='check_image')
+                          // This range input controls zoom
+                          // You can add additional elements here, e.g. the image icons
+                          input.col.s6.cropit-image-zoom-input(type='range', ng-class='color')
+                          .col.s6
+                            button.waves-effect.waves-light.btn(ng-click='cut_img()',ng-class='color')
+                              i.material-icons.right content_cut
+                              | Cortar
+                      .row(ng-show='check_image')
+                          // This is where user selects new image
+                          .input-field
+                            .file-field.input-field
+                              .btn(ng-class='color')
+                                span Logo
+                                input.cropit-image-input(type='file',ng-click='reenable()')
+                              .file-path-wrapper
+                                input.file-path.validate(type='text', required,ng-model='img',ng-class='img_null')
+
+                      .row
+                        .col.s7
+                          input#filled-in-box.filled-in(type='checkbox', checked='checked',ng-model='check_image')
+                          label(for='filled-in-box').bold Cambiar Imagen
+
+                      .row
+                        .col.s12
+                          a.waves-effect.waves-light.btn.modal-trigger(href='#modal1', ng-class='color') Paleta de Colores
+                            i(class="material-icons right") color_lens
+
+
+            .row
+                .col.s3.offset-s5
+                    button.waves-effect.waves-light.btn-large(type='submit',ng-click='send()', ng-class='color')
+                      i.material-icons.right done
+                      | Guardar
+
+        // Modal Structure
+        #modal1.modal.bottom-sheet.blue-grey.lighten-4
+          .modal-content
+            h4.thin Paleta de Colores
+            .row
+              button.btn-large.waves-effect.col.s2.red.lighten-3(style='height:40px', ng-click='color_class("red lighten-3")')
+              button.btn-large.waves-effect.col.s2.red.lighten-2(style='height:40px', ng-click='color_class("red lighten-2")')
+              button.btn-large.waves-effect.col.s2.red.lighten-1(style='height:40px', ng-click='color_class("red lighten-1")')
+              button.btn-large.waves-effect.col.s2.red(style='height:40px', ng-click='color_class("red")')
+              button.btn-large.waves-effect.col.s2.red.darken-1(style='height:40px', ng-click='color_class("red darken-1")')
+              button.btn-large.waves-effect.col.s2.red.darken-2(style='height:40px', ng-click='color_class("red darken-2")')
+
+            .row
+              button.btn-large.waves-effect.col.s2.pink.lighten-3(style='height:40px', ng-click='color_class("pink lighten-3")')
+              button.btn-large.waves-effect.col.s2.pink.lighten-2(style='height:40px', ng-click='color_class("pink lighten-2")')
+              button.btn-large.waves-effect.col.s2.pink.lighten-1(style='height:40px', ng-click='color_class("pink lighten-1")')
+              button.btn-large.waves-effect.col.s2.pink(style='height:40px', ng-click='color_class("pink")')
+              button.btn-large.waves-effect.col.s2.pink.darken-1(style='height:40px', ng-click='color_class("pink darken-1")')
+              button.btn-large.waves-effect.col.s2.pink.darken-2(style='height:40px', ng-click='color_class("pink darken-2")')
+
+            .row
+              button.btn-large.waves-effect.col.s2.purple.lighten-3(style='height:40px', ng-click='color_class("purple lighten-3")')
+              button.btn-large.waves-effect.col.s2.purple.lighten-2(style='height:40px', ng-click='color_class("purple lighten-2")')
+              button.btn-large.waves-effect.col.s2.purple.lighten-1(style='height:40px', ng-click='color_class("purple lighten-1")')
+              button.btn-large.waves-effect.col.s2.purple(style='height:40px', ng-click='color_class("purple")')
+              button.btn-large.waves-effect.col.s2.purple.darken-1(style='height:40px', ng-click='color_class("purple darken-1")')
+              button.btn-large.waves-effect.col.s2.purple.darken-2(style='height:40px', ng-click='color_class("purple darken-2")')
+
+            .row
+              button.btn-large.waves-effect.col.s2.deep-purple.lighten-3(style='height:40px', ng-click='color_class("deep-purple lighten-3")')
+              button.btn-large.waves-effect.col.s2.deep-purple.lighten-2(style='height:40px', ng-click='color_class("deep-purple lighten-2")')
+              button.btn-large.waves-effect.col.s2.deep-purple.lighten-1(style='height:40px', ng-click='color_class("deep-purple lighten-1")')
+              button.btn-large.waves-effect.col.s2.deep-purple(style='height:40px', ng-click='color_class("deep-purple")')
+              button.btn-large.waves-effect.col.s2.deep-purple.darken-1(style='height:40px', ng-click='color_class("deep-purple darken-1")')
+              button.btn-large.waves-effect.col.s2.deep-purple.darken-2(style='height:40px', ng-click='color_class("deep-purple darken-2")')
+
+            .row
+              button.btn-large.waves-effect.col.s2.indigo.lighten-3(style='height:40px', ng-click='color_class("indigo lighten-3")')
+              button.btn-large.waves-effect.col.s2.indigo.lighten-2(style='height:40px', ng-click='color_class("indigo lighten-2")')
+              button.btn-large.waves-effect.col.s2.indigo.lighten-1(style='height:40px', ng-click='color_class("indigo lighten-1")')
+              button.btn-large.waves-effect.col.s2.indigo(style='height:40px', ng-click='color_class("indigo")')
+              button.btn-large.waves-effect.col.s2.indigo.darken-1(style='height:40px', ng-click='color_class("indigo darken-1")')
+              button.btn-large.waves-effect.col.s2.indigo.darken-2(style='height:40px', ng-click='color_class("indigo darken-2")')
+
+            .row
+              button.btn-large.waves-effect.col.s2.blue.lighten-3(style='height:40px', ng-click='color_class("blue lighten-3")')
+              button.btn-large.waves-effect.col.s2.blue.lighten-2(style='height:40px', ng-click='color_class("blue lighten-2")')
+              button.btn-large.waves-effect.col.s2.blue.lighten-1(style='height:40px', ng-click='color_class("blue lighten-1")')
+              button.btn-large.waves-effect.col.s2.blue(style='height:40px', ng-click='color_class("blue")')
+              button.btn-large.waves-effect.col.s2.blue.darken-1(style='height:40px', ng-click='color_class("blue darken-1")')
+              button.btn-large.waves-effect.col.s2.blue.darken-2(style='height:40px', ng-click='color_class("blue darken-2")')
+
+            .row
+              button.btn-large.waves-effect.col.s2.light-blue.lighten-3(style='height:40px', ng-click='color_class("light-blue lighten-3")')
+              button.btn-large.waves-effect.col.s2.light-blue.lighten-2(style='height:40px', ng-click='color_class("light-blue lighten-2")')
+              button.btn-large.waves-effect.col.s2.light-blue.lighten-1(style='height:40px', ng-click='color_class("light-blue lighten-1")')
+              button.btn-large.waves-effect.col.s2.light-blue(style='height:40px', ng-click='color_class("light-blue")')
+              button.btn-large.waves-effect.col.s2.light-blue.darken-1(style='height:40px', ng-click='color_class("light-blue darken-1")')
+              button.btn-large.waves-effect.col.s2.light-blue.darken-2(style='height:40px', ng-click='color_class("light-blue darken-2")')
+
+            .row
+              button.btn-large.waves-effect.col.s2.cyan.lighten-3(style='height:40px', ng-click='color_class("cyan lighten-3")')
+              button.btn-large.waves-effect.col.s2.cyan.lighten-2(style='height:40px', ng-click='color_class("cyan lighten-2")')
+              button.btn-large.waves-effect.col.s2.cyan.lighten-1(style='height:40px', ng-click='color_class("cyan lighten-1")')
+              button.btn-large.waves-effect.col.s2.cyan(style='height:40px', ng-click='color_class("cyan")')
+              button.btn-large.waves-effect.col.s2.cyan.darken-1(style='height:40px', ng-click='color_class("cyan darken-1")')
+              button.btn-large.waves-effect.col.s2.cyan.darken-2(style='height:40px', ng-click='color_class("cyan darken-2")')
+
+            .row
+              button.btn-large.waves-effect.col.s2.teal.lighten-3(style='height:40px', ng-click='color_class("teal lighten-3")')
+              button.btn-large.waves-effect.col.s2.teal.lighten-2(style='height:40px', ng-click='color_class("teal lighten-2")')
+              button.btn-large.waves-effect.col.s2.teal.lighten-1(style='height:40px', ng-click='color_class("teal lighten-1")')
+              button.btn-large.waves-effect.col.s2.teal(style='height:40px', ng-click='color_class("teal")')
+              button.btn-large.waves-effect.col.s2.teal.darken-1(style='height:40px', ng-click='color_class("teal darken-1")')
+              button.btn-large.waves-effect.col.s2.teal.darken-2(style='height:40px', ng-click='color_class("teal darken-2")')
+
+            .row
+              button.btn-large.waves-effect.col.s2.green.lighten-3(style='height:40px', ng-click='color_class("green lighten-3")')
+              button.btn-large.waves-effect.col.s2.green.lighten-2(style='height:40px', ng-click='color_class("green lighten-2")')
+              button.btn-large.waves-effect.col.s2.green.lighten-1(style='height:40px', ng-click='color_class("green lighten-1")')
+              button.btn-large.waves-effect.col.s2.green(style='height:40px', ng-click='color_class("green")')
+              button.btn-large.waves-effect.col.s2.green.darken-1(style='height:40px', ng-click='color_class("green darken-1")')
+              button.btn-large.waves-effect.col.s2.green.darken-2(style='height:40px', ng-click='color_class("green darken-2")')
+
+            .row
+              button.btn-large.waves-effect.col.s2.light-green.lighten-3(style='height:40px', ng-click='color_class("light-green lighten-3")')
+              button.btn-large.waves-effect.col.s2.light-green.lighten-2(style='height:40px', ng-click='color_class("light-green lighten-2")')
+              button.btn-large.waves-effect.col.s2.light-green.lighten-1(style='height:40px', ng-click='color_class("light-green lighten-1")')
+              button.btn-large.waves-effect.col.s2.light-green(style='height:40px', ng-click='color_class("light-green")')
+              button.btn-large.waves-effect.col.s2.light-green.darken-1(style='height:40px', ng-click='color_class("light-green darken-1")')
+              button.btn-large.waves-effect.col.s2.light-green.darken-2(style='height:40px', ng-click='color_class("light-green darken-2")')
+
+            .row
+              button.btn-large.waves-effect.col.s2.lime.lighten-3(style='height:40px', ng-click='color_class("lime lighten-3")')
+              button.btn-large.waves-effect.col.s2.lime.lighten-2(style='height:40px', ng-click='color_class("lime lighten-2")')
+              button.btn-large.waves-effect.col.s2.lime.lighten-1(style='height:40px', ng-click='color_class("lime lighten-1")')
+              button.btn-large.waves-effect.col.s2.lime(style='height:40px', ng-click='color_class("lime")')
+              button.btn-large.waves-effect.col.s2.lime.darken-1(style='height:40px', ng-click='color_class("lime darken-1")')
+              button.btn-large.waves-effect.col.s2.lime.darken-2(style='height:40px', ng-click='color_class("lime darken-2")')
+
+            .row
+              button.btn-large.waves-effect.col.s2.yellow.lighten-3(style='height:40px', ng-click='color_class("yellow lighten-3")')
+              button.btn-large.waves-effect.col.s2.yellow.lighten-2(style='height:40px', ng-click='color_class("yellow lighten-2")')
+              button.btn-large.waves-effect.col.s2.yellow.lighten-1(style='height:40px', ng-click='color_class("yellow lighten-1")')
+              button.btn-large.waves-effect.col.s2.yellow(style='height:40px', ng-click='color_class("yellow")')
+              button.btn-large.waves-effect.col.s2.yellow.darken-1(style='height:40px', ng-click='color_class("yellow darken-1")')
+              button.btn-large.waves-effect.col.s2.yellow.darken-2(style='height:40px', ng-click='color_class("yellow darken-2")')
+
+            .row
+              button.btn-large.waves-effect.col.s2.amber.lighten-3(style='height:40px', ng-click='color_class("amber lighten-3")')
+              button.btn-large.waves-effect.col.s2.amber.lighten-2(style='height:40px', ng-click='color_class("amber lighten-2")')
+              button.btn-large.waves-effect.col.s2.amber.lighten-1(style='height:40px', ng-click='color_class("amber lighten-1")')
+              button.btn-large.waves-effect.col.s2.amber(style='height:40px', ng-click='color_class("amber")')
+              button.btn-large.waves-effect.col.s2.amber.darken-1(style='height:40px', ng-click='color_class("amber darken-1")')
+              button.btn-large.waves-effect.col.s2.amber.darken-2(style='height:40px', ng-click='color_class("amber darken-2")')
+
+            .row
+              button.btn-large.waves-effect.col.s2.orange.lighten-3(style='height:40px', ng-click='color_class("orange lighten-3")')
+              button.btn-large.waves-effect.col.s2.orange.lighten-2(style='height:40px', ng-click='color_class("orange lighten-2")')
+              button.btn-large.waves-effect.col.s2.orange.lighten-1(style='height:40px', ng-click='color_class("orange lighten-1")')
+              button.btn-large.waves-effect.col.s2.orange(style='height:40px', ng-click='color_class("orange")')
+              button.btn-large.waves-effect.col.s2.orange.darken-1(style='height:40px', ng-click='color_class("orange darken-1")')
+              button.btn-large.waves-effect.col.s2.orange.darken-2(style='height:40px', ng-click='color_class("orange darken-2")')
+
+            .row
+              button.btn-large.waves-effect.col.s2.deep-orange.lighten-3(style='height:40px', ng-click='color_class("deep-orange lighten-3")')
+              button.btn-large.waves-effect.col.s2.deep-orange.lighten-2(style='height:40px', ng-click='color_class("deep-orange lighten-2")')
+              button.btn-large.waves-effect.col.s2.deep-orange.lighten-1(style='height:40px', ng-click='color_class("deep-orange lighten-1")')
+              button.btn-large.waves-effect.col.s2.deep-orange(style='height:40px', ng-click='color_class("deep-orange")')
+              button.btn-large.waves-effect.col.s2.deep-orange.darken-1(style='height:40px', ng-click='color_class("deep-orange darken-1")')
+              button.btn-large.waves-effect.col.s2.deep-orange.darken-2(style='height:40px', ng-click='color_class("deep-orange darken-2")')
+
+            .row
+              button.btn-large.waves-effect.col.s2.brown.lighten-3(style='height:40px', ng-click='color_class("brown lighten-3")')
+              button.btn-large.waves-effect.col.s2.brown.lighten-2(style='height:40px', ng-click='color_class("brown lighten-2")')
+              button.btn-large.waves-effect.col.s2.brown.lighten-1(style='height:40px', ng-click='color_class("brown lighten-1")')
+              button.btn-large.waves-effect.col.s2.brown(style='height:40px', ng-click='color_class("brown")')
+              button.btn-large.waves-effect.col.s2.brown.darken-1(style='height:40px', ng-click='color_class("brown darken-1")')
+              button.btn-large.waves-effect.col.s2.brown.darken-2(style='height:40px', ng-click='color_class("brown darken-2")')
+
+            .row
+              button.btn-large.waves-effect.col.s2.grey.lighten-3(style='height:40px', ng-click='color_class("grey lighten-3")')
+              button.btn-large.waves-effect.col.s2.grey.lighten-2(style='height:40px', ng-click='color_class("grey lighten-2")')
+              button.btn-large.waves-effect.col.s2.grey.lighten-1(style='height:40px', ng-click='color_class("grey lighten-1")')
+              button.btn-large.waves-effect.col.s2.grey(style='height:40px', ng-click='color_class("grey")')
+              button.btn-large.waves-effect.col.s2.grey.darken-1(style='height:40px', ng-click='color_class("grey darken-1")')
+              button.btn-large.waves-effect.col.s2.grey.darken-2(style='height:40px', ng-click='color_class("grey darken-2")')
+
+            .row
+              button.btn-large.waves-effect.col.s2.blue-grey.lighten-3(style='height:40px', ng-click='color_class("blue-grey lighten-3")')
+              button.btn-large.waves-effect.col.s2.blue-grey.lighten-2(style='height:40px', ng-click='color_class("blue-grey lighten-2")')
+              button.btn-large.waves-effect.col.s2.blue-grey.lighten-1(style='height:40px', ng-click='color_class("blue-grey lighten-1")')
+              button.btn-large.waves-effect.col.s2.blue-grey(style='height:40px', ng-click='color_class("blue-grey")')
+              button.btn-large.waves-effect.col.s2.blue-grey.darken-1(style='height:40px', ng-click='color_class("blue-grey darken-1")')
+              button.btn-large.waves-effect.col.s2.blue-grey.darken-2(style='height:40px', ng-click='color_class("blue-grey darken-2")')
+
+            .row
+              button.btn-large.waves-effect.col.s12.black(style='height:40px', ng-click='color_class("black")')
+            
+
+
+
+    script(src='/javascripts/angular_controllers/edit_user_controller.js')
+block footer
+
+                
+
+
+                
+
+

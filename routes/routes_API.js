@@ -107,6 +107,116 @@ newType2.save(function(err){
 
 
 		})
+		
+		.put(function (request,response){
+
+
+			function decodeBase64Image(dataString) {
+
+			  var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+			  image_array = {};
+
+			  if (matches.length !== 3) {
+			    return new Error('Invalid input string');
+			  }
+
+			  image_array.type = matches[1];
+			  image_array.data = new Buffer(matches[2], 'base64');
+
+			  return image_array;
+			}
+
+
+			if (request.body.img64){
+
+				var data = request.body.img64;
+
+				var imageBuffer = decodeBase64Image(data);
+				console.log(imageBuffer);
+				var type;
+
+				if (imageBuffer.type == 'image/jpeg') {
+					type = '.jpg'
+				}
+				else{
+					type = '.png'
+				}
+				
+
+
+						User.findById(request.session.user_id,function (err, user){
+
+							user.nombre = request.body.nombre;
+							user.direccion = request.body.direccion;
+							user.email = request.body.correo;
+							user.password = request.body.contrasena;
+							user.color = request.body.color;
+
+
+							var fs = require('fs');
+							fs.writeFile('./public/images/userLogo/'+user._id+type, imageBuffer.data, function(err) { 
+
+								if (err){
+									response.sendStatus(500);
+									throw err;	
+								}
+								else{
+									user.save();
+
+									response.clearCookie('correo');
+									response.clearCookie('direccion');
+									response.clearCookie('nombre');
+									response.clearCookie('color');
+
+									response.cookie('nombre', encodeURIComponent(user.nombre));
+									response.cookie('direccion',encodeURIComponent(user.direccion));
+									response.cookie('correo',encodeURIComponent(user.email));
+									response.cookie('color',encodeURIComponent(user.color));
+
+									response.sendStatus(200);
+								}
+
+							});
+						})
+
+			}
+			else{
+
+
+						User.findById(request.session.user_id,function (err, user){
+
+							user.nombre = request.body.nombre;
+							user.direccion = request.body.direccion;
+							user.email = request.body.correo;
+							user.password = request.body.contrasena;
+							user.color = request.body.color;
+
+
+								if (err){
+									response.sendStatus(500);
+									throw err;	
+								}
+								else{
+									user.save();
+
+									response.clearCookie('correo');
+									response.clearCookie('direccion');
+									response.clearCookie('nombre');
+									response.clearCookie('color');
+
+									response.cookie('nombre', encodeURIComponent(user.nombre));
+									response.cookie('direccion',encodeURIComponent(user.direccion));
+									response.cookie('correo',encodeURIComponent(user.email));
+									response.cookie('color',encodeURIComponent(user.color));
+
+									response.sendStatus(200);
+								}
+
+						})
+
+			}
+
+		})
 
 	app.route('/loginApp')
 
@@ -131,10 +241,10 @@ newType2.save(function(err){
 								RedisClient.expire(request.session._id,3600);
 
 
-								response.cookie('nombre',user.nombre);
-								response.cookie('direccion',user.direccion);
-								response.cookie('correo',user.email);
-								response.cookie('color',user.color);
+								response.cookie('nombre', encodeURIComponent(user.nombre));
+								response.cookie('direccion',encodeURIComponent(user.direccion));
+								response.cookie('correo',encodeURIComponent(user.email));
+								response.cookie('color',encodeURIComponent(user.color));
 
 								response.sendStatus(200);
 							}
