@@ -124,17 +124,17 @@ block content
                   //Dropdown Structure
                   ul(id='dropdown'+index).dropdown-content
                     li.regular
-                      a(href='/survey/'+val._id) Ver 
+                      a(href='/survey/'+val._id).black-text Ver 
 
                     li.divider
                     li.regular
-                      a.modal-trigger(href='#modal1', ng-click='obtain_graphs_data("#{val._id}")') Estadísticos
+                      a.modal-trigger.black-text(href='#modal1', ng-click='obtain_graphs_data("#{val._id}")') Estadísticos
                     li.regular
-                      a(ng-click='makeQR("#{val._id}")') Código QR
+                      a.black-text(ng-click='makeQR("#{val._id}")') Código QR
 
                     li.divider
                       li.regular
-                        a(ng-click='delete_modal("#{val._id}")') Eliminar
+                        a.black-text(ng-click='delete_modal("#{val._id}")') Eliminar
 
 
       #qr_modal.modal
