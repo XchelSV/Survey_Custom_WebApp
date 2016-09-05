@@ -32,11 +32,11 @@ block content
         li
           .userView
             img.background.responsive-img(src='images/target_img.png',style='position:absolute;z-index:-1')
-            a(href='#!user',style='padding-top:4%')
+            a(href='/index',style='padding-top:4%')
               img.responsive-img(src='/images/userLogo/#{user_id}.png')
-            a(href='#!name')
+            a
               span.black-text.name.bold {{user_name}}
-            a(href='#!email')
+            a
               span.black-text.email.bold {{user_email}}
 
         li.bold
@@ -46,7 +46,7 @@ block content
         li
           .divider
         li.bold
-          a.waves-effect
+          a.waves-effect(href='/coming/soon')
             i.material-icons(style='padding-right:4%') local_atm
             |Medio de Pago
 
@@ -123,17 +123,17 @@ block content
 
                   //Dropdown Structure
                   ul(id='dropdown'+index).dropdown-content
-                    li.bold
+                    li.regular
                       a(href='/survey/'+val._id) Ver 
 
                     li.divider
-                    li.bold
+                    li.regular
                       a.modal-trigger(href='#modal1', ng-click='obtain_graphs_data("#{val._id}")') Estadísticos
-                    li.bold
+                    li.regular
                       a(ng-click='makeQR("#{val._id}")') Código QR
 
                     li.divider
-                      li.bold
+                      li.regular
                         a(ng-click='delete_modal("#{val._id}")') Eliminar
 
 

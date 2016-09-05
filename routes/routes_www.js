@@ -113,13 +113,19 @@ module.exports = (function (app, RedisClient, uuid){
 
 			}
 			else{
-				response.sendStatus(404); //Dont Exist Survey, or Wrong id
+				response.render('catch', {title:'404 Not Found', subtitle: 'No existe la encuesta, Asegurate de Ingresar de manera correcta tu URL'}) //sendStatus(404); //Dont Exist Survey, or Wrong id
 			}
 
 		})
 
 	})
 
+	app.route('/coming/soon')
+		.get(function (request, response){
+
+			response.render('catch', {title:'Estamos trabajando en nuestro Sitio', subtitle: 'Stay tuned for something amazing!'})
+
+		})
 
 	app.route('/survey/qr/:_id')
 

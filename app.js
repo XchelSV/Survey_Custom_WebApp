@@ -60,7 +60,9 @@ if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
-      message: err.message,
+      //message: err.message,
+      title: err.message,
+      subtitle: 'Asegurate de insertar de manera correcta la URL',
       error: err
     });
   });
@@ -71,7 +73,9 @@ if (app.get('env') === 'development') {
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {
-    message: err.message,
+    title: err.message,
+    subtitle: 'Asegurate de insertar de manera correcta la URL',
+    //message: err.message,
     error: {}
   });
 });
