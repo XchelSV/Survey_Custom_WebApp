@@ -106,17 +106,23 @@ block content
                 .card-content
                   if val.nombre.length <= 30
                     span.card-title.black-text.regular= val.nombre
-                    if val.descripcion.length <= 45
-                      p= val.descripcion
+                    if val.descripcion == undefined
+                      p=''
                     else
-                      p= val.descripcion.slice(0,40)+'...'  
+                      if val.descripcion.length <= 45
+                        p= val.descripcion
+                      else
+                        p= val.descripcion.slice(0,40)+'...'  
 
                   else
                     span.card-title.black-text.regular= val.nombre.slice(0, 25)+ '...'
-                    if val.descripcion.length <= 45
-                      p= val.descripcion
+                    if val.descripcion == undefined
+                      p=''
                     else
-                      p= val.descripcion.slice(0,40)+'...'
+                      if val.descripcion.length <= 45
+                        p= val.descripcion
+                      else
+                        p= val.descripcion.slice(0,40)+'...'
                     
                 .card-action
                   a.dropdown-button.btn(href='#', data-activates='dropdown'+index, ng-class='color') Opciones
