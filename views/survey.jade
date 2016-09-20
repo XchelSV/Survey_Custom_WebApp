@@ -14,15 +14,23 @@ block content
       .container.animated.fadeIn(ng-controller='surveyController')
 
         .row
-                .col.s6.input-field
+                .col.s3.input-field
                     input#email.validate(type='email',ng-model='email')
                     label(for='email').blue-grey-text Correo Electrónico
-                .col.s6.input-field
+                .col.s3.input-field
                     select#gender(ng-model='gender')
                       option(value='', disabled='', selected='') Elige una Opción
                       option(value='false') Hombre
                       option(value='true') Mujer
                     label.blue-grey-text Sexo
+                .col.s3.input-field
+                    input#edad.validate(type='number',ng-model='age')
+                    label(for='edad').blue-grey-text Edad
+
+                .col.s3.input-field
+                    label.active(for='cumpleanos').blue-grey-text  Cumpleaños
+                    input#cumpleanos.validate(type='date',ng-model='birthday')
+                    
 
         each question in survey.preguntas
             .row

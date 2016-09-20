@@ -15,7 +15,7 @@ app.controller ('surveyController',function  ($scope , $http, $cookies) {
 			}
 		};
 
-		if($scope.gender == null || $scope.email == null){
+		if($scope.gender == null || $scope.email == null || $scope.birthday == null || $scope.age == null){
 			flag = false;
 		}
 
@@ -24,7 +24,7 @@ app.controller ('surveyController',function  ($scope , $http, $cookies) {
 
 	 	if(flag){
 
-	 		var encuesta = {answers: $scope.answer, email: $scope.email, gender: $('#gender').val()}
+	 		var encuesta = {answers: $scope.answer, email: $scope.email, gender: $('#gender').val(), birthday: $scope.birthday, age: $scope.age}
 
 			$http.post('/survey/'+survey_id+'/answers',encuesta).then(function success (response){
 

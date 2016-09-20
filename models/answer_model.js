@@ -5,6 +5,8 @@ var answerSchema = mongoose.Schema({
     date: Date,
     gender: Boolean,
     email: String,
+    birthday: Date,
+    age: Number,
     answers : [String]
 });
 

@@ -462,7 +462,9 @@ newType2.save(function(err){
 										date: date,
 										answers: request.body.answers,
 										email: request.body.email,
-										gender: request.body.gender
+										gender: request.body.gender,
+										age: request.body.age,
+										birthday: request.body.birthday
 
 									})
 
