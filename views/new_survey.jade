@@ -15,9 +15,7 @@ block content
             .col.s8.offset-s2(align='center')
                 h2.thin Registro de Encuesta
         .row(style='margin-top:2%')
-            .row
-                .col.s3
-                    h5.thin.regular Nueva Pregunta
+
             .row
                 .input-field.col.s6
                   input#name_survey.validate(type='text',ng-model='titulo',length = '45')
@@ -26,6 +24,10 @@ block content
                 .input-field.col.s6
                     textarea#textarea1.materialize-textarea(ng-model='descripcion')
                     label.regular(for='textarea1').blue-grey-text Descripción
+
+            .row
+                .col.s3
+                    h5.thin.regular Nueva Pregunta
             .row
                 .input-field.col.s6
                   input#name.validate(type='text',ng-model='question',ng-class='question_null',length='65' validate)
