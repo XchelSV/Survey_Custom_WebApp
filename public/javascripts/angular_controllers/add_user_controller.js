@@ -39,6 +39,10 @@ app.controller ('addUserController',function  ($scope , $http, $cookies) {
 	    		if($scope.contrasena == null){
 	    			$scope.pass_null = 'animated shake';
 		    	}else{
+
+		    	if($scope.confirmar_contrasena == null){
+	    			
+		    	}else{
 		    		
 		    		if($scope.correo == null){
 
@@ -53,25 +57,34 @@ app.controller ('addUserController',function  ($scope , $http, $cookies) {
 				    			$scope.imgdata_null = 'animated shake';
 				    			Materialize.toast('Corta la Imagen', 4000);
 					    	}else{
+
+					    		if($scope.contrasena == $scope.confirmar_contrasena){
 					    		
-					    		var data = {nombre: $scope.nombre, contrasena: $scope.contrasena, direccion: $scope.direccion, correo: $scope.correo, img64: $scope.imageData, color:$scope.color};
-								$http.post('/user/new', data ).then(function success (response){
+						    		var data = {nombre: $scope.nombre, contrasena: $scope.contrasena, direccion: $scope.direccion, correo: $scope.correo, img64: $scope.imageData, color:$scope.color};
+									$http.post('/user/new', data ).then(function success (response){
 
-									window.location = "/index";
+										window.location = "/index";
 
-								}, function error (response) {
+									}, function error (response) {
 
-									if (response.status === 500) {
-										Materialize.toast('Error al guardar Imagen', 4000)
-									};
+										if (response.status === 500) {
+											Materialize.toast('Error al guardar Imagen', 4000)
+										};
 
-									if (response.status === 401) {
-										Materialize.toast('El nombre ya Existe', 4000)
-									};
+										if (response.status === 401) {
+											Materialize.toast('El nombre ya Existe', 4000)
+										};
 
-								});
+									});
+								}
+								else{
+
+									Materialize.toast('Contraseñas no coinciden', 4000);
+
+								}
 
 					    	}
+					    }
 
 				    	}
 			    	}

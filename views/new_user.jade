@@ -54,6 +54,10 @@ block content
                         label.regular(for='password') Contraseña
                     .row
                       .input-field
+                        input#password.validate(type='password',required, ng-model='confirmar_contrasena')
+                        label.regular(for='password') Confirmar Contraseña
+                    .row
+                      .input-field
                         input#email.validate(type='email',required, ng-model='correo',ng-class='mail_null')
                         label.regular(for='email',data-error="wrong", data-success="right") Correo Electónico
 
@@ -78,7 +82,7 @@ block content
                                 span Logo
                                 input.cropit-image-input(type='file',ng-click='reenable()')
                               .file-path-wrapper
-                                input.file-path.validate(type='text', required,ng-model='img',ng-class='img_null')
+                                input.file-path.validate(type='text', required, ng-model='img',ng-class='img_null')
 
                       .row
                         .col.s12
