@@ -12,7 +12,7 @@ block content
 
 
     .container.animated.fadeIn(ng-controller='loginController')
-        .row(style='margin-top:6%')
+        .row(style='margin-top:8%')
             .col.s4.offset-s4.z-depth-2.div_form
                 .row(style='margin-top:8%')
                     .col.s10.offset-s1(align='center')
@@ -35,12 +35,13 @@ block content
                     .col.s10.offset-s1
                         button.btn.waves-effect.waves-light.col.s12.deep-purple.lighten-2(type='submit', name='action', ng-click='login()')
                           | Acceder
-                .row(style='font-size:80%')
-                    .col.s3.offset-s1
+                .row(style='font-size:80%',align='center')
+                    .col.s12
                         p.bold
                             a(href='/newUser').purple-text.text-darken-3
-                                | ¡Registrate!
-                    .col.s7
+                                | ¡Regístrate!
+                .row(style='font-size:80%;margin-top:-20%',align='center')
+                    .col.s12
                         p.bold
                             a(href='#').purple-text.text-darken-3
                                 ¿Olvidaste tu contraseña?
