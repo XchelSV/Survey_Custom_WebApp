@@ -28,14 +28,32 @@ html(ng-app='DS_Survey')
                 flex-direction: column;
                 font-family: 'Quicksand', sans-serif;
               }
-            
+
+            @font-face {
+                font-family: 'Myriad Pro Reg';
+                src: url('/fonts/Myriad-Pro_31655.ttf');
+            }
+
+            @font-face {
+                font-family: 'Myriad Pro Bold';
+                src: url('/fonts/Myriad-Pro-Bold_31631.ttf');
+            }
+
             .regular{
+              font-family:'Myriad Pro Reg' !important;
+            }
+
+            .bold{
+              font-weight:'Myriad Pro Bold' !important;
+            }
+            
+            /*.regular{
               font-weight:400 !important;
             }
 
             .bold{
               font-weight:700 !important;
-            }
+            }*/
 
 
             main {
