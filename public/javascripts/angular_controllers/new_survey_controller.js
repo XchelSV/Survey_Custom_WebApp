@@ -51,6 +51,7 @@ app.controller ('newSurveyController',function  ($scope , $http, $cookies) {
 					$scope.questions.push({number:question_i,question:$scope.question,type:$scope.type_id, options_type: $scope.options_type})
 					$scope.question = undefined;
 					$scope.type_id = undefined;
+					$scope.options_type = undefined;
 				}
 				
 				
