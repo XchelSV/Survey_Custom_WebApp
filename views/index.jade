@@ -12,6 +12,7 @@ block content
 
 
 
+
   nav(style='height:95px',ng-controller='indexController',ng-class='color').animated.fadeInDown
     .nav-wrapper
       a.brand-logo.center(href='#')
@@ -94,7 +95,7 @@ block content
                 }
 
                 var card = document.getElementById('card'+i)
-                console.log(card);
+                //console.log(card);
                 card.className += ' m'+col;
                 i++;
 
@@ -147,13 +148,13 @@ block content
           .row
             .col.s12
               h4(align='center').thin Escanea el código QR de la Encuesta
-          .row(style='margin-top:6%')
-            .col.s4.offset-s4
+          .row(style='margin-top:6%',align='center')
+            .col.m4.offset-m4.s12
               #qrcode
             
 
         .modal-footer
-          a.modal-action.modal-close.waves-effect.waves-green.btn-flat(href='#!') Exportar a PDF
+          a.modal-action.modal-close.waves-effect.waves-green.btn-flat(href='#!', ng-click='pdf_export()') Exportar a PDF
 
 
       #delete_modal.modal

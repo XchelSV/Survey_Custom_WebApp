@@ -1,0 +1,37 @@
+extends layout
+
+block content
+
+    nav(style='height:95px',class='#{color}').animated.fadeInDown
+            .nav-wrapper
+                a.brand-logo.center(href='#') 
+                    img.responsive-img(src='/images/userLogo/#{user_id}.png', alt='')
+
+    .container.animated.fadeIn()
+
+        .row(align='center', style='margin-top:6%')#qr_contain
+            .col.m8.offset-m2
+                #qrcode
+                
+
+
+    script.
+
+        $(document).ready(function(){
+
+            document.getElementById("qrcode").innerHTML = "";
+            var survey_id = "#{survey_id}";
+
+            var qrcode = new QRCode(document.getElementById("qrcode"),{
+                text: document.location.origin+"/survey/"+survey_id,
+                width: 500,
+                height: 500,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+
+            return xepOnline.Formatter.Format('qr_contain',{render:'download'});
+
+        })
+        

@@ -36,6 +36,15 @@ module.exports = (function (app, RedisClient, uuid){
 
 	})
 
+	app.route('/survey/:_id/qr')
+
+		.get(function (request, response){
+
+			var survey_id = request.params._id;
+			response.render('qr_survey',{survey_id: survey_id, user_id:request.session.user_id, nombre: decodeURIComponent(request.cookies.nombre), direccion: decodeURIComponent(request.cookies.direccion), correo: decodeURIComponent(request.cookies.correo), color: decodeURIComponent(request.cookies.color)})
+
+		})
+
 	app.route('/newUser')
 
 	.get(function (request, response){
