@@ -74,12 +74,13 @@ app.controller ('indexController',function  ($scope , $http, $cookies) {
 	}
 	
 	
+	var qr_url;
 	$scope.makeQR = function (survey_id){
 		
 		document.getElementById("qrcode").innerHTML = "";
 
 		var qrcode = new QRCode(document.getElementById("qrcode"),{
-		    text: "http://xchelsv.com:8080/survey/"+survey_id,
+		    text: document.location.origin+"/survey/"+survey_id,
 		    width: 250,
 		    height: 250,
 		    colorDark : "#000000",
@@ -87,9 +88,29 @@ app.controller ('indexController',function  ($scope , $http, $cookies) {
 		    correctLevel : QRCode.CorrectLevel.H
 		});
 
+		qr_survey_id = survey_id;
 		$('#qr_modal').openModal();
+		
 
 	};
+
+	$scope.pdf_export = function (){
+
+		window.open(document.location.origin+"/survey/"+qr_survey_id+"/qr",'_blank');
+
+		/*var printContents = document.getElementById('qr_modal').innerHTML;
+     	var originalContents = document.body.innerHTML;
+
+     	document.body.innerHTML = printContents;
+
+     	window.print();
+
+     	document.body.innerHTML = originalContents;*/
+
+     	/*return xepOnline.Formatter.Format('qrcode',{render:'download', 
+            cssStyle:[{fontSize:'30px'},{fontWeight:'bold'}]});*/
+
+	}
 
 
 	var answers_counter = [];
