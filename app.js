@@ -8,12 +8,23 @@ var session       = require('express-session');
 var multipart = require('connect-multiparty');
 var uuid = require('uuid');
 var redis = require('redis');
+var nodemailer = require('nodemailer');
+var smtpTransport = require('nodemailer-smtp-transport');
+
 
 var app = express();
 
 var http = require('http').Server(app);
 var mongoose = require('mongoose');
 var redisClient = redis.createClient();
+
+var transporter = nodemailer.createTransport({
+        service: "Gmail",
+        auth: {
+            user: "xchelsvz@gmail.com",
+            pass: "xchelelisanchez12"
+        }
+      });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -41,7 +52,7 @@ redisClient.on('connect', function (){
 });
 
 require('./routes/routes_www')(app);
-require('./routes/routes_API')(app, redisClient, uuid);
+require('./routes/routes_API')(app, redisClient, uuid, transporter);
 
 
 
