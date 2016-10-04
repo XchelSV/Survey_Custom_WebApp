@@ -8,6 +8,8 @@ app.controller ('newSurveyController',function  ($scope , $http, $cookies) {
 	$http.get('/options/type').then(function success (response){
 
 				$scope.types = response.data;
+				$scope.types.push({_id:1, nombre: 'Sí/No', opciones: ['Sí','No']});
+				$scope.types.push({_id:2, nombre: 'Bueno/Regular/Malo', opciones: ['Bueno','Regular','Malo']});
 
 				$scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
 				    $('select').material_select();

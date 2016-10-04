@@ -292,7 +292,7 @@ newType2.save(function(err){
 
 				if (request.session._id){
 
-					option_type.find('',function (err,docs){
+					option_type.find({user_id: request.session.user_id},function (err,docs){
 
 						if(err) throw err;
 
@@ -315,6 +315,7 @@ newType2.save(function(err){
 
 					var newOption = new option_type({
 						nombre: request.body.name,
+						user_id: request.session.user_id,
 						opciones: request.body.option_values
 					})
 
