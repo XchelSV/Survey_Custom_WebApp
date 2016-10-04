@@ -10,8 +10,14 @@ block content
     .container.animated.fadeIn()
 
         .row(align='center', style='margin-top:6%')#qr_contain
-            .col.m8.offset-m2.col.s12
-                #qrcode
+            
+            .row
+                .col.m8.offset-m2.col.s12
+                    #qrcode
+
+            .row(style='margin-top:6%')
+                .col.s12.col.m6.offset-m3
+                    a(href='/dfdsfs', id='qr link') Link de la Encuesta
                 
 
 
@@ -21,6 +27,8 @@ block content
 
             document.getElementById("qrcode").innerHTML = "";
             var survey_id = "#{survey_id}";
+            var qr_link = document.getElementById("qr link");
+            qr_link.href = document.location.origin+"/survey/"+survey_id;
 
             var qrcode = new QRCode(document.getElementById("qrcode"),{
                 text: document.location.origin+"/survey/"+survey_id,

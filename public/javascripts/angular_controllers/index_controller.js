@@ -94,6 +94,10 @@ app.controller ('indexController',function  ($scope , $http, $cookies) {
 
 	};
 
+	$scope.copy_link = function (){
+		window.prompt("Copia el link: ", document.location.origin+"/survey/"+qr_survey_id);
+	}
+
 	$scope.pdf_export = function (){
 
 		window.open(document.location.origin+"/survey/"+qr_survey_id+"/qr",'_blank');

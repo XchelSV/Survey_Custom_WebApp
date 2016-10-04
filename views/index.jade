@@ -154,7 +154,10 @@ block content
             
 
         .modal-footer
-          a.modal-action.modal-close.waves-effect.waves-green.btn-flat(href='#!', ng-click='pdf_export()') Exportar a PDF
+
+          a.modal-action.modal-close.waves-effect.waves-purple.btn-flat(href='#!', ng-click='pdf_export()') Exportar a PDF
+
+          a.modal-action.modal-close.waves-effect.waves-purple.btn-flat(href='#!', ng-click='copy_link()') Copiar Link
 
 
       #delete_modal.modal
@@ -251,14 +254,14 @@ block content
                
   
   .fixed-action-btn.horizontal(style='bottom: 45px; right: 24px;')
-      a.btn-floating.btn-large.red.waves-effect.waves-light(href='/survey/new')
+      a.btn-floating.btn-large.red.waves-effect.waves-light.btn.tooltipped(href='/survey/new',data-position="top", data-delay="50", data-tooltip="Crea una Encuesta")
         i.large.material-icons add
       ul
         li
-            a.btn-floating.red(href='/answer/type/new')
+            a.btn-floating.red.btn.tooltipped(href='/answer/type/new',data-position="top", data-delay="50", data-tooltip="Crea una Respuesta")
               i.material-icons check_box
         li
-            a.btn-floating.blue.darken-1(href='/survey/new')
+            a.btn-floating.blue.darken-1.btn.tooltipped(href='/survey/new',data-position="top", data-delay="50", data-tooltip="Crea una Encuesta")
               i.material-icons note_add
 
 
