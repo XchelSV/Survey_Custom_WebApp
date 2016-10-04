@@ -1,4 +1,4 @@
-module.exports = (function (app,RedisClient, uuid){
+module.exports = (function (app,RedisClient, uuid, transporter){
 
 var path_module = require('path')
 var User = require('../models/user_model');
@@ -89,7 +89,26 @@ newType2.save(function(err){
 								throw err;	
 							}
 							else{
-								response.sendStatus(200);
+
+								var mailOptions = {
+								    from: '"Administrador Digitalsoft" <contacto@digitalsoft.mx', // sender address
+								    to: request.body.correo, // list of receivers
+								    subject: 'Confirmación de Registro ✔', // Subject line
+								    /*text: 'Gracias por haber completado tu Registro.
+								    A partir de ahora puedes hacer eso del sistema con tu cuenta:
+								    Usuario: '+request.body.nombre+
+								    'Contraseña: '+request.body.contrasena, // plaintext body*/
+								    html: '<b>Gracias por haber completado tu Registro</b><p>A partir de ahora puedes hacer uso del sistema con tu cuenta:</p><p>Usuario: <b>'+request.body.nombre+'</b> y Contraseña: <b>'+request.body.contrasena+'</b></p><p> Cualquier duda que tengas con gusto la atenderemos <br></p>  <p><i>Administrador del Sistema</i><br> <b>contact@digitalsoft.mx</b></p>' // html body
+								};
+
+								transporter.sendMail(mailOptions, function(error, info){
+								    if(error){
+								    	response.sendStatus(500);
+								        throw error;
+								    }
+								    console.log('Message sent: ' + info.response);
+								    response.sendStatus(200);
+								});
 							}
 
 						});
