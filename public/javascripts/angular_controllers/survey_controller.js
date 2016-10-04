@@ -28,7 +28,7 @@ app.controller ('surveyController',function  ($scope , $http, $cookies) {
 
 			$http.post('/survey/'+survey_id+'/answers',encuesta).then(function success (response){
 
-				window.location = "/index";	
+				window.location = "/answer/confirmation";	
 						
 
 				}, function error (response) {

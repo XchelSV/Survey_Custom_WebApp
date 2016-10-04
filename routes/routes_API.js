@@ -432,7 +432,6 @@ newType2.save(function(err){
 
 			.post(function (request,response){
 
-				if (request.session._id){
 
 					var survey_id = request.params.survey_id;
 					var date = new Date();
@@ -494,14 +493,6 @@ newType2.save(function(err){
 							response.sendStatus(500);
 						}
 					})
-
-
-				}
-						else{
-								request.session.destroy(function (err){
-								response.redirect('/');
-							})
-						}
 
 				
 
