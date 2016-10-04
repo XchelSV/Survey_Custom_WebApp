@@ -31,7 +31,7 @@ app.controller ('loginController',function  ($scope , $http, $cookies) {
 				}, function error (response) {
 
 					if (response.status === 401) {
-						Materialize.toast('Usuario/Contraseña Incorrecta', 4000)
+						Materialize.toast('Usuario/Contraseña Erróneo', 4000)
 					};
 
 				});
