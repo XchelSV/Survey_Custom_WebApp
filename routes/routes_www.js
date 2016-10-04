@@ -136,6 +136,13 @@ module.exports = (function (app, RedisClient, uuid){
 
 		})
 
+	app.route('/answer/confirmation')
+		.get(function (request, response){
+
+			response.render('catch', {title:'¡Muchas Gracias!', subtitle: 'Pronto podrás recibir beneficios al participar de nuestras encuestas'})
+
+		})
+
 	app.route('/survey/qr/:_id')
 
 	.get(function (request,response){
