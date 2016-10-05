@@ -1,0 +1,67 @@
+extends layout
+
+block content
+    style.
+        body{
+            background-color: #574370;
+        }
+        .div_form{
+            background-color: white;   
+        }
+
+        @media only screen and (min-width : 601px) and (max-width : 1260px) {
+        .toast {
+        width: 100%;
+        border-radius: 0;
+        background: #F78181 !important} }
+
+        @media only screen and (min-width : 1261px) {
+        .toast {
+        width: 100%;
+        border-radius: 0;
+        background: #F78181 !important} }
+
+        @media only screen and (min-width : 601px) and (max-width : 1260px) {
+        #toast-container {
+        min-width: 100%;
+        bottom: 90%;
+        top: 0%;
+        right: 0%;
+        left: 0%;} }
+
+        @media only screen and (min-width : 1261px) {
+        #toast-container {
+        min-width: 100%;
+        bottom: 90%;
+        top: 0%;
+        right: 0%;
+        left: 0%; } }
+        
+
+
+    .container.animated.fadeIn(ng-controller='forgottPassController')
+        .row(style='margin-top:8%')
+            .col.m6.offset-m3.s10.offset-s1.z-depth-2.div_form
+                .row(style='margin-top:8%')
+                    .col.s10.offset-s1(align='center')
+                        img.responsive-img(src='/images/logo_01.png')
+
+                .row
+                    .col.s10.offset-s1
+                        h5
+                            |Por favor, ingresa el correo electrónico con el que te registraste.
+                .row
+                    .input-field.col.s10.offset-s1(ng-class='name_null')
+                      i.material-icons.prefix email
+                      input#icon_prefix.validate(type='email', ng-model='email')
+                      label.regular(for='icon_prefix') Correo electrónico
+                
+                .row
+                    .col.s10.offset-s1
+                        button.btn.waves-effect.waves-light.col.s12.deep-purple.lighten-2(type='submit', name='action', ng-click='send()')
+                          | Envíar
+                
+
+    script(src='/javascripts/angular_controllers/forgott_controller.js')
+      
+block footer

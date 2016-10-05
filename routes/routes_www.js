@@ -143,6 +143,20 @@ module.exports = (function (app, RedisClient, uuid){
 
 		})
 
+	app.route('/passwd/confirmation')
+		.get(function (request, response){
+
+			response.render('catch', {title:'¡Listo!', subtitle: 'En breve recibiras un correo con una nueva contraseña'})
+
+		})
+
+	app.route('/forgott/passwd')
+		.get(function (request, response){
+
+			response.render('forgott_pass')
+
+		})
+
 	app.route('/survey/qr/:_id')
 
 	.get(function (request,response){

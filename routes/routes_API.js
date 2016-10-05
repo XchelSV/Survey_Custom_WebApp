@@ -1,4 +1,4 @@
-module.exports = (function (app,RedisClient, uuid, transporter){
+module.exports = (function (app,RedisClient, uuid, ObjectId ,transporter){
 
 var path_module = require('path')
 var User = require('../models/user_model');
@@ -303,6 +303,53 @@ newType2.save(function(err){
 
 					})
 
+
+				})
+
+			})
+
+		app.route('/restart/pass')
+
+			.post(function (request,response){
+
+				User.findOne({email:request.body.email}, function (err, user_exist){
+
+					if(user_exist == undefined){
+						response.sendStatus(401);
+					}
+					else{
+
+						var new_pass = new ObjectId();
+						user_exist.password = new_pass;
+
+						var mailOptions = {
+							
+							from: '"Administrador Digitalsoft" <contacto@digitalsoft.mx', // sender address
+							to: request.body.email, // list of receivers
+							subject: 'Reinicio de Contraseña', // Subject line
+							html: '<b>Tu contraseña ha sido reestablecida</b><p>Tu contraseña ha sido cambiada:</p><p>Contraseña: <b>'+new_pass+'</b></p><p> Cualquier duda que tengas con gusto la atenderemos <br></p>  <p><i>Administrador del Sistema</i><br> <b>contact@digitalsoft.mx</b></p>' // html body
+							
+							};
+
+							transporter.sendMail(mailOptions, function(error, info){
+								if(error){
+									response.sendStatus(500);
+									
+									throw error;
+
+								}else{
+									
+										if (err){
+											throw err;
+										}
+										else{
+											user_exist.save();
+											console.log('Message sent: ' + info.response);
+											response.sendStatus(200);
+										}
+								}
+								});
+					}
 
 				})
 
