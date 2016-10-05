@@ -72,7 +72,7 @@ app.controller ('addUserController',function  ($scope , $http, $cookies) {
 										};
 
 										if (response.status === 401) {
-											Materialize.toast('El nombre ya Existe', 4000)
+											Materialize.toast('El nombre/correo ya Existe', 4000)
 										};
 
 									});

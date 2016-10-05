@@ -65,60 +65,63 @@ newType2.save(function(err){
 
 			User.findOne({nombre:request.body.nombre},function (err,user){
 
-				if(user == undefined){
+				User.findOne({email: request.body.correo},function (err,mail_exist){
 
-					var newUser = new User({
+					if(user == undefined && mail_exist == undefined){
 
-						nombre : request.body.nombre,
-						direccion : request.body.direccion,
-						password : request.body.contrasena,
-						email : request.body.correo,
-						color: request.body.color,
-						image_path : type
+						var newUser = new User({
 
-					})
+							nombre : request.body.nombre,
+							direccion : request.body.direccion,
+							password : request.body.contrasena,
+							email : request.body.correo,
+							color: request.body.color,
+							image_path : type
 
-					newUser.save(function (err, user){
+						})
 
-						var fs = require('fs');
-						fs.writeFile('./public/images/userLogo/'+user._id+type, imageBuffer.data, function(err) { 
+						newUser.save(function (err, user){
 
-							if (err){
-								User.remove({_id:user._id});
-								response.sendStatus(500);
-								throw err;	
-							}
-							else{
+							var fs = require('fs');
+							fs.writeFile('./public/images/userLogo/'+user._id+type, imageBuffer.data, function(err) { 
 
-								var mailOptions = {
-								    from: '"Administrador Digitalsoft" <contacto@digitalsoft.mx', // sender address
-								    to: request.body.correo, // list of receivers
-								    subject: 'Confirmación de Registro ✔', // Subject line
-								    /*text: 'Gracias por haber completado tu Registro.
-								    A partir de ahora puedes hacer eso del sistema con tu cuenta:
-								    Usuario: '+request.body.nombre+
-								    'Contraseña: '+request.body.contrasena, // plaintext body*/
-								    html: '<b>Gracias por haber completado tu Registro</b><p>A partir de ahora puedes hacer uso del sistema con tu cuenta:</p><p>Usuario: <b>'+request.body.nombre+'</b> y Contraseña: <b>'+request.body.contrasena+'</b></p><p> Cualquier duda que tengas con gusto la atenderemos <br></p>  <p><i>Administrador del Sistema</i><br> <b>contact@digitalsoft.mx</b></p>' // html body
-								};
+								if (err){
+									User.remove({_id:user._id});
+									response.sendStatus(500);
+									throw err;	
+								}
+								else{
 
-								transporter.sendMail(mailOptions, function(error, info){
-								    if(error){
-								    	response.sendStatus(500);
-								        throw error;
-								    }
-								    console.log('Message sent: ' + info.response);
-								    response.sendStatus(200);
-								});
-							}
+									var mailOptions = {
+									    from: '"Administrador Digitalsoft" <contacto@digitalsoft.mx', // sender address
+									    to: request.body.correo, // list of receivers
+									    subject: 'Confirmación de Registro ✔', // Subject line
+									    /*text: 'Gracias por haber completado tu Registro.
+									    A partir de ahora puedes hacer eso del sistema con tu cuenta:
+									    Usuario: '+request.body.nombre+
+									    'Contraseña: '+request.body.contrasena, // plaintext body*/
+									    html: '<b>Gracias por haber completado tu Registro</b><p>A partir de ahora puedes hacer uso del sistema con tu cuenta:</p><p>Usuario: <b>'+request.body.nombre+'</b> y Contraseña: <b>'+request.body.contrasena+'</b></p><p> Cualquier duda que tengas con gusto la atenderemos <br></p>  <p><i>Administrador del Sistema</i><br> <b>contact@digitalsoft.mx</b></p>' // html body
+									};
 
-						});
-					})
+									transporter.sendMail(mailOptions, function(error, info){
+									    if(error){
+									    	response.sendStatus(500);
+									        throw error;
+									    }
+									    console.log('Message sent: ' + info.response);
+									    response.sendStatus(200);
+									});
+								}
 
-				}
-				else{
-					response.sendStatus(401);
-				}
+							});
+						})
 
+					}
+					else{
+						response.sendStatus(401);
+					}
+
+				})
 
 			})
 
