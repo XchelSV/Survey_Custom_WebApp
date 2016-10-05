@@ -1,4 +1,4 @@
-module.exports = (function (app,RedisClient, uuid, ObjectId ,transporter){
+module.exports = (function (app,RedisClient, uuid, ObjectId ,mailgun){
 
 var path_module = require('path')
 var User = require('../models/user_model');
@@ -92,8 +92,8 @@ newType2.save(function(err){
 								}
 								else{
 
-									var mailOptions = {
-									    from: '"Administrador Digitalsoft" <contacto@digitalsoft.mx', // sender address
+									var mail = {
+									    from: 'Administrador Digitalsoft <contacto@digitalsoft.mx>', // sender address
 									    to: request.body.correo, // list of receivers
 									    subject: 'Confirmación de Registro ✔', // Subject line
 									    /*text: 'Gracias por haber completado tu Registro.
@@ -103,14 +103,15 @@ newType2.save(function(err){
 									    html: '<b>Gracias por haber completado tu Registro</b><p>A partir de ahora puedes hacer uso del sistema con tu cuenta:</p><p>Usuario: <b>'+request.body.nombre+'</b> y Contraseña: <b>'+request.body.contrasena+'</b></p><p> Cualquier duda que tengas con gusto la atenderemos <br></p>  <p><i>Administrador del Sistema</i><br> <b>contact@digitalsoft.mx</b></p>' // html body
 									};
 
-									transporter.sendMail(mailOptions, function(error, info){
-									    if(error){
+									mailgun.messages().send(mail, function (error, body) {
+									  if(error){
 									    	response.sendStatus(500);
 									        throw error;
 									    }
-									    console.log('Message sent: ' + info.response);
+									    console.log('Message sent: ' + body);
 									    response.sendStatus(200);
 									});
+
 								}
 
 							});
@@ -322,33 +323,26 @@ newType2.save(function(err){
 						var new_pass = new ObjectId();
 						user_exist.password = new_pass;
 
-						var mailOptions = {
+						var mail = {
 							
-							from: '"Administrador Digitalsoft" <contacto@digitalsoft.mx', // sender address
+							from: 'Administrador Digitalsoft <contacto@digitalsoft.mx>', // sender address
 							to: request.body.email, // list of receivers
 							subject: 'Reinicio de Contraseña', // Subject line
 							html: '<b>Tu contraseña ha sido reestablecida</b><p>Tu contraseña ha sido cambiada:</p><p>Contraseña: <b>'+new_pass+'</b></p><p> Cualquier duda que tengas con gusto la atenderemos <br></p>  <p><i>Administrador del Sistema</i><br> <b>contact@digitalsoft.mx</b></p>' // html body
 							
 							};
 
-							transporter.sendMail(mailOptions, function(error, info){
-								if(error){
-									response.sendStatus(500);
-									
-									throw error;
-
-								}else{
-									
-										if (err){
-											throw err;
-										}
-										else{
-											user_exist.save();
-											console.log('Message sent: ' + info.response);
-											response.sendStatus(200);
-										}
-								}
-								});
+							mailgun.messages().send(mail, function (error, body) {
+									if(error){
+									    	response.sendStatus(500);
+									        throw error;
+									    }
+									else{
+										user_exist.save();
+									    console.log('Message sent: ' + body);
+									    response.sendStatus(200);
+									}
+							});
 					}
 
 				})

@@ -8,8 +8,6 @@ var session       = require('express-session');
 var multipart = require('connect-multiparty');
 var uuid = require('uuid');
 var redis = require('redis');
-var nodemailer = require('nodemailer');
-var smtpTransport = require('nodemailer-smtp-transport');
 
 
 var app = express();
@@ -19,13 +17,9 @@ var ObjectID = require('mongodb').ObjectID;
 var mongoose = require('mongoose');
 var redisClient = redis.createClient();
 
-var transporter = nodemailer.createTransport({
-        service: "Gmail",
-        auth: {
-            user: "xchelsvz@gmail.com",
-            pass: "xchelelisanchez12"
-        }
-      });
+var api_key = 'key-43e476e1a4a30d33fc48ae83e98d9c28';
+var domain = 'sandboxafb141b7c90645d18a9eaccb69beb7cb.mailgun.org';
+var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -53,7 +47,7 @@ redisClient.on('connect', function (){
 });
 
 require('./routes/routes_www')(app);
-require('./routes/routes_API')(app, redisClient, uuid, ObjectID,transporter);
+require('./routes/routes_API')(app, redisClient, uuid, ObjectID,mailgun);
 
 
 
