@@ -15,6 +15,7 @@ var smtpTransport = require('nodemailer-smtp-transport');
 var app = express();
 
 var http = require('http').Server(app);
+var ObjectID = require('mongodb').ObjectID;
 var mongoose = require('mongoose');
 var redisClient = redis.createClient();
 
@@ -52,7 +53,7 @@ redisClient.on('connect', function (){
 });
 
 require('./routes/routes_www')(app);
-require('./routes/routes_API')(app, redisClient, uuid, transporter);
+require('./routes/routes_API')(app, redisClient, uuid, ObjectID,transporter);
 
 
 
