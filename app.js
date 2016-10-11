@@ -18,7 +18,7 @@ var mongoose = require('mongoose');
 var redisClient = redis.createClient();
 
 var api_key = 'key-43e476e1a4a30d33fc48ae83e98d9c28';
-var domain = 'sandboxafb141b7c90645d18a9eaccb69beb7cb.mailgun.org';
+var domain = 'xchelsv.com';
 var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
 
 // view engine setup

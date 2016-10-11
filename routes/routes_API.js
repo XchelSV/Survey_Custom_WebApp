@@ -328,7 +328,7 @@ newType2.save(function(err){
 							from: 'Administrador Digitalsoft <contacto@digitalsoft.mx>', // sender address
 							to: request.body.email, // list of receivers
 							subject: 'Reinicio de Contraseña', // Subject line
-							html: '<b>Tu contraseña ha sido reestablecida</b><p>Tu contraseña ha sido cambiada:</p><p>Contraseña: <b>'+new_pass+'</b></p><p> Cualquier duda que tengas con gusto la atenderemos <br></p>  <p><i>Administrador del Sistema</i><br> <b>contact@digitalsoft.mx</b></p>' // html body
+							html: '<b>Tu contraseña ha sido reestablecida</b><p>Tu contraseña para el Usuario <b>' + user_exist.nombre + '</b> ha sido cambiada:</p><p>Contraseña: <b>'+new_pass+'</b></p><p> Cualquier duda que tengas con gusto la atenderemos <br></p>  <p><i>Administrador del Sistema</i><br> <b>contact@digitalsoft.mx</b></p>' // html body
 							
 							};
 
