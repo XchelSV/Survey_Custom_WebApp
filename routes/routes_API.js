@@ -5,6 +5,7 @@ var User = require('../models/user_model');
 var option_type = require('../models/type_model');
 var Survey = require('../models/survey_model');
 var Answer = require('../models/answer_model');
+var path = require('path');
 
 /*var newType = new option_type({
 
@@ -562,6 +563,71 @@ newType2.save(function(err){
 
 			})
 
+		var json2xls = require('json2xls');
+
+		app.route('/survey/:_id/xls')
+
+			.get(function (request,response){
+
+				var survey_id = request.params._id;
+				//console.log(survey_id);
+
+				Answer.find({survey_id:survey_id},function (err, answers){
+					Survey.findById(survey_id, function (err, survey){
+
+					var fs = require('fs');
+
+					var answers_to_xls = [];
+
+					for (var i = 0; i < answers.length; i++) {
+						
+						var temp_json = {};
+						temp_json.Correo = answers[i].email;
+						temp_json.Edad = answers[i].age;
+
+						if (answers[i].gender == false) {
+							temp_json.Sexo = 'Hombre';
+						}
+						else{
+							temp_json.Sexo = 'Mujer';
+						}
+
+						temp_json.Cumpleanos = answers[i].birthday;
+						temp_json.Fecha_Respuesta = answers[i].date;
+
+						//console.log(JSON.stringify(survey));
+
+						for (var j = 1; j < answers[i].answers.length; j++) {
+								
+							var nombre_pregunta = 'Pregunta '+j+': '+survey.preguntas[j-1].question;
+							temp_json[nombre_pregunta] = answers[i].answers[j];
+								
+						}
+
+						answers_to_xls.push(temp_json);
+
+					}
+
+					var xls = json2xls(answers_to_xls);
+					fs.writeFileSync('./public/xls/'+survey_id+'.xlsx', xls, 'binary');
+					
+					response.sendStatus(200);
+				})
+			})
+
+
+		})
+
+
+		app.route('/survey/:_id/export/xls')
+
+			.get(function (request,response){
+
+				var survey_id = request.params._id;
+				response.sendFile(path.join(__dirname, '../public/xls/'+survey_id+'.xlsx'));
+
+
+		})
 
 
 });

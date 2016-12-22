@@ -422,4 +422,22 @@ app.controller ('indexController',function  ($scope , $http, $cookies) {
 
 	}
 
+	$scope.exportXLS = function () {
+
+		$http.get('/survey/'+$scope.survey._id+'/xls').then(function success (response){
+
+			Materialize.toast('Descargando', 4000);
+			window.open(document.location.origin+"/survey/"+$scope.survey._id+"/export/xls",'_blank');
+
+		}, function error (response) {
+
+			if (response.status === 500) {
+				Materialize.toast('Error al Exportar la Encuesta', 4000)
+			};
+
+		});
+
+		
+	}
+
 })
