@@ -624,8 +624,8 @@ newType2.save(function(err){
 			.get(function (request,response){
 
 				var survey_id = request.params._id;
-				response.sendFile(path.join(__dirname, '../public/xls/'+survey_id+'.xlsx'));
-
+				//response.sendFile(path.join(__dirname, '../public/xls/'+survey_id+'.xlsx'));
+				response.download(path.join(__dirname, '../public/xls/'+survey_id+'.xlsx'),'report.xlsx');
 
 		})
 
